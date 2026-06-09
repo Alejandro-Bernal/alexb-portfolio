@@ -1,0 +1,167 @@
+:root {
+    --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono:
+        ui-monospace, "JetBrains Mono", "Cascadia Code", "Fira Code",
+        "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+
+    /* Selection (very terminal) */
+    --selection-bg: color-mix(in srgb, var(--text) 35%, transparent);
+    --selection-fg: var(--bg);
+}
+
+html {
+    color-scheme: dark; /* we're terminal, mostly dark */
+}
+
+body {
+    margin: 0;
+    background: #000; /* outer bezel */
+}
+
+/* === Theme Variables === */
+:root[data-theme="green"] {
+    --bg: #0a0c0a;
+    --bg-elevated: #111411;
+    --bg-header: #0f120f;
+    --text: #00ff9f;
+    --text-dim: #00cc7a;
+    --text-bright: #66ffbb;
+    --accent: #00ff9f;
+    --border: #003322;
+    --border-strong: #004d33;
+    --cursor: #00ff9f;
+    --glow: 0 0 6px rgba(0, 255, 159, 0.5);
+}
+
+:root[data-theme="amber"] {
+    --bg: #120f08;
+    --bg-elevated: #1a160e;
+    --bg-header: #16130b;
+    --text: #ffb000;
+    --text-dim: #cc8c00;
+    --text-bright: #ffcc66;
+    --accent: #ffb000;
+    --border: #3a2f1a;
+    --border-strong: #594a2b;
+    --cursor: #ffb000;
+    --glow: 0 0 6px rgba(255, 176, 0, 0.45);
+}
+
+:root[data-theme="solarized"] {
+    --bg: #002b36;
+    --bg-elevated: #073642;
+    --bg-header: #00212b;
+    --text: #839496;
+    --text-dim: #586e75;
+    --text-bright: #eee8d5;
+    --accent: #2aa198; /* cyan */
+    --border: #0a4a57;
+    --border-strong: #1a5f6e;
+    --cursor: #2aa198;
+    --glow: 0 0 4px rgba(42, 161, 152, 0.3);
+}
+
+/* === Global Terminal Styling === */
+#root {
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 100svh;
+    padding: 24px 12px;
+    box-sizing: border-box;
+}
+
+.terminal-window {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 0 0 1px var(--border);
+}
+
+.terminal-header {
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+.terminal-dots span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--border-strong);
+}
+.terminal-dots span:nth-child(1) {
+    background: #ff5f56;
+}
+.terminal-dots span:nth-child(2) {
+    background: #ffbd2e;
+}
+.terminal-dots span:nth-child(3) {
+    background: #27c93f;
+}
+
+.terminal-body {
+    padding: 20px 24px;
+    color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--text-bright);
+    margin: 0 0 12px;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+a:hover {
+    text-shadow: var(--glow);
+}
+
+code,
+pre,
+.mono {
+    font-family: var(--mono);
+}
+
+.cursor {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1.1em;
+    background: var(--cursor);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Selection */
+::selection {
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+}
+
+/* Optional subtle CRT glow on bright text */
+.text-glow {
+    text-shadow: var(--glow);
+}
