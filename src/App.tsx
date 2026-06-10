@@ -1,10 +1,13 @@
 import "./App.css";
 import Hero from "./components/hero/Hero";
 import { useTheme } from "./hooks/useTheme";
+import { useTerminal } from "./hooks/useTerminal";
 import { THEMES } from "./types/global.types";
 
 function App() {
     const { theme, changeTheme } = useTheme();
+    const { input, setInput, history, onSubmit, inputRef } = useTerminal();
+
     return (
         <>
             <div className="theme-switcher">
@@ -32,16 +35,37 @@ function App() {
                     <div className="terminal-body">
                         <Hero />
 
-                        <div className="command-line">
+                        <div className="terminal-output">
+                            {history.map((entry, idx) => (
+                                <div key={idx} className="terminal-entry">
+                                    <div>
+                                        <span className="prompt-prefix">
+                                            bernal-a@portfolio:~${" "}
+                                        </span>
+                                        <span>{entry.command}</span>
+                                    </div>
+                                    {entry.output.map((line, i) => (
+                                        <div key={i}>{line}</div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+
+                        <form className="command-line" onSubmit={onSubmit}>
                             <span className="prompt-prefix">
-                                alex@portfolio:~$&nbsp;
+                                bernal-a@portfolio:~${" "}
                             </span>
                             <input
+                                ref={inputRef}
                                 className="terminal-input"
                                 type="text"
-                                placeholder="Type a command... (try help, about, clear)"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder='Type "help" and press Enter'
+                                autoComplete="off"
+                                spellCheck={false}
                             />
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
