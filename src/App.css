@@ -56,7 +56,9 @@
     font-family: var(--mono);
     font-size: inherit;
     line-height: inherit;
-    color: var(--bg); /* typed text blends with background so only placeholder shows */
+    color: var(
+        --text-dim
+    ); /* typed text blends with background so only placeholder shows */
     caret-color: var(--cursor); /* blinking cursor matches current theme */
 }
 
