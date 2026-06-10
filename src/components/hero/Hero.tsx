@@ -54,7 +54,7 @@ function Hero() {
 
                 <div className="hero-roles">
                     <div className="role">Project Manager</div>
-                    <div className="role">Software Developer</div>
+                    <div className="role">Software Engineer</div>
                     <div className="role">Full-Stack Developer</div>
                 </div>
             </div>
