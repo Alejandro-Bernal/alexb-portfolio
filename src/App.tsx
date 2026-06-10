@@ -1,27 +1,10 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import Hero from "./components/hero/Hero";
-
-type Theme = "green" | "amber" | "solarized";
-
-const THEMES: Theme[] = ["green", "amber", "solarized"];
+import { useTheme } from "./hooks/useTheme";
+import { THEMES } from "./types/global.types";
 
 function App() {
-    const [theme, setTheme] = useState<Theme>("green");
-
-    useEffect(() => {
-        const saved = localStorage.getItem("terminal-theme") as Theme | null;
-        const initial = saved && THEMES.includes(saved) ? saved : "green";
-        setTheme(initial);
-        document.documentElement.dataset.theme = initial;
-    }, []);
-
-    const changeTheme = (newTheme: Theme) => {
-        setTheme(newTheme);
-        document.documentElement.dataset.theme = newTheme;
-        localStorage.setItem("terminal-theme", newTheme);
-    };
-
+    const { theme, changeTheme } = useTheme();
     return (
         <>
             <div className="theme-switcher">
