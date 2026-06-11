@@ -1,0 +1,37 @@
+/* src/components/terminal-commands/Help.css */
+.help-output {
+    color: var(--text);
+    font-family: var(--mono);
+    padding: 20px;
+}
+
+.help-header {
+    padding-bottom: 15px;
+}
+
+.help-output p {
+    color: var(--text-dim);
+    margin: 0 0 4px 0;
+}
+
+.help-output ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.help-output .cmd {
+    color: var(--text-bright);
+}
+
+.help-option {
+    display: flex;
+    flex-direction: row;
+}
+
+.help-option .cmd {
+    min-width: 12ch; /* fixed column width — adjust to taste */
+}
