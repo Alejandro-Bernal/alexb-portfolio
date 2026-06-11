@@ -1,17 +1,5 @@
-import { type FormEvent, useRef, useState } from "react";
-
-type TerminalEntry = {
-    command: string;
-    output: string[];
-};
-
-const HELP_COMMANDS = [
-    "help",
-    "about",
-    "projects",
-    "skills",
-    "contact",
-] as const;
+import { useRef, useState, type SubmitEventHandler } from "react";
+import { type TerminalEntry } from "../types/global.types";
 
 export function useTerminal() {
     const [input, setInput] = useState("");
@@ -22,34 +10,24 @@ export function useTerminal() {
         const command = raw.trim().toLowerCase();
 
         if (command === "") {
-            setHistory((prev) => [...prev, { command: "", output: [] }]);
+            setHistory((prev) => [...prev, { command: "", kind: "empty" }]);
             return;
         }
 
         if (command === "help") {
-            setHistory((prev) => [
-                ...prev,
-                {
-                    command,
-                    output: ["Available commands:", ...HELP_COMMANDS],
-                },
-            ]);
+            setHistory((prev) => [...prev, { command, kind: "help" }]);
             return;
         }
 
-        setHistory((prev) => [
-            ...prev,
-            {
-                command,
-                output: [
-                    'Command not found: "' + command + '"',
-                    'Type "help" to list available commands.',
-                ],
-            },
-        ]);
+        if (command === "clear") {
+            setHistory([]);
+            return;
+        }
+
+        setHistory((prev) => [...prev, { command, kind: "unknown" }]);
     };
 
-    const onSubmit = (e: FormEvent) => {
+    const onSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         runCommand(input);
         setInput("");
