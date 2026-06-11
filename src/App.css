@@ -71,3 +71,14 @@
     outline: none;
     box-shadow: none;
 }
+
+.terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.terminal-entry {
+    white-space: pre-wrap;
+    color: var(--text);
+}
