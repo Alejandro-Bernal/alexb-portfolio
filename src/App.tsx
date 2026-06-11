@@ -1,12 +1,40 @@
 import "./App.css";
+import { useEffect, useRef } from "react";
 import Hero from "./components/hero/Hero";
+import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
-import { THEMES } from "./types/global.types";
+import { THEMES, type TerminalEntry } from "./types/global.types";
 
 function App() {
     const { theme, changeTheme } = useTheme();
     const { input, setInput, history, onSubmit, inputRef } = useTerminal();
+
+    const bottomRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [history]);
+
+    const renderCommandOutput = (entry: TerminalEntry) => {
+        switch (entry.kind) {
+            case "help":
+                return <HelpOutput />;
+            case "clear":
+                return null;
+            case "empty":
+                return (
+                    <div>
+                        Try using <span className="cmd">help</span> to see the
+                        list of available commands.
+                    </div>
+                );
+            case "unknown":
+                return <div>Command not found: {entry.command}</div>;
+            default:
+                return null;
+        }
+    };
 
     return (
         <>
@@ -44,11 +72,10 @@ function App() {
                                         </span>
                                         <span>{entry.command}</span>
                                     </div>
-                                    {entry.output.map((line, i) => (
-                                        <div key={i}>{line}</div>
-                                    ))}
+                                    <div>{renderCommandOutput(entry)}</div>
                                 </div>
                             ))}
+                            <div ref={bottomRef} />
                         </div>
 
                         <form className="command-line" onSubmit={onSubmit}>
