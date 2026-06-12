@@ -2,6 +2,8 @@ import "./App.css";
 import { useEffect, useRef } from "react";
 import Hero from "./components/hero/Hero";
 import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
+import { About } from "./components/terminal-commands/About/About";
+import { Skills } from "./components/terminal-commands/Skills/Skills";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
 import { THEMES, type TerminalEntry } from "./types/global.types";
@@ -20,6 +22,43 @@ function App() {
         switch (entry.kind) {
             case "help":
                 return <HelpOutput />;
+            case "about":
+                return <About />;
+            case "skills":
+                return <Skills />;
+            case "contact-usage":
+                return (
+                    <div>
+                        <div>
+                            Please add the required arguments for contact.
+                        </div>
+                        <div>
+                            Example:{" "}
+                            <span className="cmd">
+                                contact email name subject message
+                            </span>
+                        </div>
+                        <div>
+                            Tip: wrap values with spaces in quotes, e.g.{" "}
+                            <span className="cmd">
+                                contact me@email.com Moose "New Project" "Let's
+                                build something"
+                            </span>
+                        </div>
+                    </div>
+                );
+            case "contact-success":
+                return (
+                    <div>
+                        <div>Message captured and logged to console.</div>
+                        <div>
+                            From: {entry.contactPayload?.name} (
+                            {entry.contactPayload?.email})
+                        </div>
+                        <div>Subject: {entry.contactPayload?.subject}</div>
+                        <div>Message: {entry.contactPayload?.message}</div>
+                    </div>
+                );
             case "clear":
                 return null;
             case "empty":
