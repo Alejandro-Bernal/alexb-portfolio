@@ -9,12 +9,21 @@ export type CommandKind =
     | "about"
     | "projects"
     | "skills"
-    | "contact"
+    | "contact-usage"
+    | "contact-success"
     | "clear"
     | "unknown";
+
+export type ContactPayload = {
+    email: string;
+    name: string;
+    subject: string;
+    message: string;
+};
 
 // for useTerminal Hook
 export type TerminalEntry = {
     command: string;
     kind: CommandKind;
+    contactPayload?: ContactPayload;
 };
