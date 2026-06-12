@@ -18,10 +18,28 @@
     gap: 6px;
 }
 
+.skill-category {
+    margin-top: 9px;
+}
+
+.skill-category:first-child {
+    margin-top: 3px;
+}
+
+.category-header {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.92em;
+    letter-spacing: 0.3px;
+    margin-bottom: 3px;
+    padding-bottom: 1px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+}
+
 .skill-row {
     display: grid;
-    grid-template-columns: 12ch minmax(16ch, 1fr) 6ch;
-    gap: 10px;
+    grid-template-columns: 22ch minmax(12ch, 1fr) 5ch;
+    gap: 8px;
     align-items: center;
 }
 
@@ -52,10 +70,8 @@
 .skill-fill {
     display: block;
     height: 100%;
-    width: 0;
     background: color-mix(in srgb, var(--accent) 20%, transparent);
     border-right: 1px solid var(--accent);
-    animation: skill-fill-in 900ms ease-out forwards;
     position: relative;
 }
 
@@ -72,12 +88,6 @@
 .skill-percent {
     color: var(--text-dim);
     text-align: right;
-}
-
-@keyframes skill-fill-in {
-    from {
-        width: 0;
-    }
 }
 
 @media (max-width: 700px) {
