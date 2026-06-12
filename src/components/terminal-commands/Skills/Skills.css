@@ -1,0 +1,92 @@
+.skills-output {
+    color: var(--text);
+    font-family: var(--mono);
+    padding: 12px 20px;
+}
+
+.skills-header {
+    margin: 0 0 8px 0;
+    color: var(--text-bright);
+}
+
+.skills-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: 12ch minmax(16ch, 1fr) 6ch;
+    gap: 10px;
+    align-items: center;
+}
+
+.skill-name {
+    color: var(--text-bright);
+}
+
+.skill-bar {
+    position: relative;
+    height: 1.3em;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    overflow: hidden;
+}
+
+.skill-bar::before {
+    content: "............................................................";
+    color: var(--text-dim);
+    opacity: 0.35;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.skill-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-right: 1px solid var(--accent);
+    animation: skill-fill-in 900ms ease-out forwards;
+    position: relative;
+}
+
+.skill-fill::before {
+    content: "####################################################################################################";
+    color: var(--text);
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+}
+
+.skill-percent {
+    color: var(--text-dim);
+    text-align: right;
+}
+
+@keyframes skill-fill-in {
+    from {
+        width: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .skill-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .skill-percent {
+        text-align: left;
+    }
+}
