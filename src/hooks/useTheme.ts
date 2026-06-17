@@ -1,24 +1,12 @@
-import { useState, useEffect } from "react";
-import { type Theme, THEMES } from "../types/global.types";
+import { useContext } from "react";
+import { ThemeContext, type ThemeContextValue } from "../context/themeContext";
 
-export function useTheme() {
-    const [theme, setTheme] = useState<Theme>(() => {
-        const saved = localStorage.getItem("terminal-theme") as Theme | null;
-        return saved && THEMES.includes(saved) ? saved : "green";
-    });
+export function useTheme(): ThemeContextValue {
+    const context = useContext(ThemeContext);
 
-    useEffect(() => {
-        document.documentElement.dataset.theme = theme;
-    }, [theme]);
+    if (!context) {
+        throw new Error("useTheme must be used within a ThemeProvider");
+    }
 
-    const changeTheme = (newTheme: Theme) => {
-        setTheme(newTheme);
-        document.documentElement.dataset.theme = newTheme;
-        localStorage.setItem("terminal-theme", newTheme);
-    };
-
-    return {
-        theme,
-        changeTheme,
-    };
+    return context;
 }
