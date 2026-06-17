@@ -3,7 +3,19 @@ import { useEffect, useRef } from "react";
 import Hero from "./components/hero/Hero";
 import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
 import { About } from "./components/terminal-commands/About/About";
-import { Skills } from "./components/terminal-commands/Skills/Skills";
+import {
+    ProjectDetail,
+    ProjectsList,
+} from "./components/terminal-commands/Projects/Projects";
+import {
+    SkillsCategory,
+    SkillsList,
+} from "./components/terminal-commands/Skills/Skills";
+import {
+    ContactUsage,
+    ProjectsUsage,
+    SkillsUsage,
+} from "./components/terminal-commands/shared/CommandUsage";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
 import { THEMES, type TerminalEntry } from "./types/global.types";
@@ -24,28 +36,31 @@ function App() {
                 return <HelpOutput />;
             case "about":
                 return <About />;
-            case "skills":
-                return <Skills />;
+            case "projects-list":
+                return <ProjectsList />;
+            case "projects-detail":
+                return (
+                    <ProjectDetail projectId={entry.projectId ?? ""} />
+                );
+            case "projects-usage":
+                return (
+                    <ProjectsUsage error="Unknown or incomplete projects command." />
+                );
+            case "skills-list":
+                return <SkillsList />;
+            case "skills-category":
+                return (
+                    <SkillsCategory
+                        categoryId={entry.skillsCategory ?? ""}
+                    />
+                );
+            case "skills-usage":
+                return (
+                    <SkillsUsage error="Unknown or incomplete skills command." />
+                );
             case "contact-usage":
                 return (
-                    <div>
-                        <div>
-                            Please add the required arguments for contact.
-                        </div>
-                        <div>
-                            Example:{" "}
-                            <span className="cmd">
-                                contact email name subject message
-                            </span>
-                        </div>
-                        <div>
-                            Tip: wrap values with spaces in quotes, e.g.{" "}
-                            <span className="cmd">
-                                contact me@email.com Moose "New Project" "Let's
-                                build something"
-                            </span>
-                        </div>
-                    </div>
+                    <ContactUsage error="Please add the required arguments for contact." />
                 );
             case "contact-success":
                 return (
@@ -64,8 +79,8 @@ function App() {
             case "empty":
                 return (
                     <div>
-                        Try using <span className="cmd">help</span> to see the
-                        list of available commands.
+                        Try <span className="cmd">help</span> to see available
+                        commands.
                     </div>
                 );
             case "unknown":
