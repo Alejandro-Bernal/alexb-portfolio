@@ -1,4 +1,6 @@
 import { useRef, useState, type SubmitEventHandler } from "react";
+import { getProject } from "../components/terminal-commands/Projects/projects.data";
+import { getSkillCategory } from "../components/terminal-commands/Skills/skills.data";
 import { type TerminalEntry } from "../types/global.types";
 
 function tokenizeCommand(input: string): string[] {
@@ -46,9 +48,67 @@ export function useTerminal() {
         }
 
         if (command === "skills") {
+            const args = tokens.slice(1);
+            const subcommand = (args[0] ?? "").toLowerCase();
+
+            if (subcommand === "" || subcommand === "list") {
+                setHistory((prev) => [
+                    ...prev,
+                    { command: trimmed, kind: "skills-list" },
+                ]);
+                return;
+            }
+
+            const category = getSkillCategory(subcommand);
+
+            if (category) {
+                setHistory((prev) => [
+                    ...prev,
+                    {
+                        command: trimmed,
+                        kind: "skills-category",
+                        skillsCategory: category.id,
+                    },
+                ]);
+                return;
+            }
+
             setHistory((prev) => [
                 ...prev,
-                { command: trimmed, kind: "skills" },
+                { command: trimmed, kind: "skills-usage" },
+            ]);
+            return;
+        }
+
+        if (command === "projects") {
+            const args = tokens.slice(1);
+            const subcommand = (args[0] ?? "").toLowerCase();
+
+            if (subcommand === "" || subcommand === "list") {
+                setHistory((prev) => [
+                    ...prev,
+                    { command: trimmed, kind: "projects-list" },
+                ]);
+                return;
+            }
+
+            const project = getProject(subcommand);
+
+            if (project) {
+                setHistory((prev) => [
+                    ...prev,
+                    {
+                        command: trimmed,
+                        kind: "projects-detail",
+                        projectId: project.id,
+                    },
+                ]);
+                return;
+            }
+
+            setHistory((prev) => [
+                ...prev,
+                { command: trimmed, kind: "projects-usage" },
             ]);
             return;
         }
@@ -64,12 +124,12 @@ export function useTerminal() {
                 return;
             }
 
-            const [email, name, subject, ...messageParts] = args;
+            const [name, email, subject, ...messageParts] = args;
             const message = messageParts.join(" ");
 
             const contactPayload = {
-                email,
                 name,
+                email,
                 subject,
                 message,
             };
