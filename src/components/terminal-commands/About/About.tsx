@@ -1,90 +1,111 @@
 import "./About.css";
-import selfPortrait from "../../../assets/self-portrait.png";
+import selfPortrait from "../../../assets/alejandro.png";
+import selfPortraitAmber from "../../../assets/alejandro-amber.png";
+import selfPortraitSolarized from "../../../assets/alejandro-sol.png";
+import { useTheme } from "../../../hooks/useTheme";
+import { type Theme } from "../../../types/global.types";
+
+const PORTRAITS: Record<Theme, string> = {
+    green: selfPortrait,
+    amber: selfPortraitAmber,
+    solarized: selfPortraitSolarized,
+};
 
 export function About() {
+    const { theme } = useTheme();
+
     return (
         <div className="about-output">
-            <img
-                src={selfPortrait}
-                alt="Alejandro Bernal Cruz"
-                className="about-portrait"
-            />
+            <div className="about-wrapper">
+                <img
+                    src={PORTRAITS[theme]}
+                    alt="Alejandro Bernal Cruz"
+                    className="about-portrait"
+                />
 
-            <p>Hey there, fellow web surfer!</p>
-            <p>
-                I'm Alejandro Bernal Cruz, I go by Ale to most, but my buddies
-                also call me Moose (Nickname that just stuck).
-            </p>
-            <p>
-                I hail from El Salvador and have proudly called Los Angeles, CA
-                my home since 2004. Growing up, video games weren't just
-                entertainment — they were virtual canvases that sparked my
-                imagination and ultimately led me to Computer Science. I've
-                always been fascinated by how these digital worlds are built,
-                and that passion has driven me to create my own{" "}
-                <span className="about-hint">
-                    (spoiler: there's a secret game hidden somewhere in this
-                    portfolio... shhh)
-                </span>
-                .
-            </p>
-            <p>
-                With over 6 years of hands-on Full-Stack Development experience,
-                I've built and scaled real-time web applications using React,
-                TypeScript, Node.js, Express, and MongoDB. I've also architected
-                cloud-native solutions on AWS, managed Linux servers and Docker
-                environments, set up CI/CD pipelines, and stepped up as Acting
-                Technology Lead and HIPAA Compliance Lead.
-            </p>
+                <p>Hi! Welcome to my portfolio CLI.</p>
 
-            <p className="about-section-label">What lights me up:</p>
-            <ul>
-                <li>
-                    Designing user-friendly interfaces with personality and
-                    polish
-                </li>
-                <li>
-                    Building secure, scalable backend systems and real-time
-                    features (WebSockets, anyone?)
-                </li>
-                <li>
-                    Leading small teams, mentoring devs, and driving projects
-                    from idea to production
-                </li>
-                <li>
-                    Geeking out over tech, gaming (lifelong fan), and coding
-                </li>
-            </ul>
+                <p>
+                    I'm Alejandro, a passionate Full-Stack Web and Software
+                    Developer and tech enthusiast with the ability to create,
+                    innovate and lead.
+                </p>
 
-            <div className="about-divider" />
+                <p>
+                    Born in El Salvador and having called Los Angeles home since
+                    2004, I discovered my passion for technology through video
+                    games — starting with Mario Bros. on the NES. This early
+                    spark led me to dive hands-on into development in high
+                    school, where I served as Scrum Leader and developer on a
+                    team project that built SAT Fighters, a learn-as-you-play
+                    SAT vocabulary prep game. Our work earned 2nd place in a
+                    pitch contest and an invitation to Google LA, where I had
+                    the opportunity to speak with Eric Schmidt. These
+                    experiences solidified my path, culminating in a Bachelor of
+                    Science in Computer Science from Cal State LA in 2020.
+                </p>
 
-            <p className="about-section-label">Let's connect!</p>
-            <div className="about-contact">
-                <div>
-                    <span className="about-label">Email</span>
-                    <a href="mailto:alexbernal32396@gmail.com">
-                        alexbernal32396@gmail.com
-                    </a>
-                </div>
-                <div>
-                    <span className="about-label">GitHub</span>
-                    <a
-                        href="https://github.com/Alejandro-Bernal"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        github.com/Alejandro-Bernal
-                    </a>
-                </div>
-                <div>
-                    <span className="about-label">LinkedIn</span>
-                    <a
-                        href="https://www.linkedin.com/in/alejandro-bernal-cruz"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        linkedin.com/in/alejandro-bernal-cruz
-                    </a>
+                <p>
+                    With over 6 years of progressive Full-Stack Software
+                    Engineering experience, I build and scale robust, real-time
+                    web applications using the MERN stack (React, TypeScript,
+                    Node.js, Express, and MongoDB). I design and maintain
+                    secure, cloud-native infrastructure on Amazon Web Services
+                    (AWS) — dockerizing applications, hosting private MongoDB
+                    instances, and implementing serverless architectures with
+                    Lambda, EventBridge, and CloudWatch to deliver real-time
+                    telemetry monitoring and zero-downtime production
+                    environments.
+                </p>
+
+                <p>
+                    I established and maintained CI/CD pipelines with GitHub
+                    Actions, enforced high standards through rigorous code
+                    reviews, and automated deployments using Vercel and Netlify.
+                    With experience as Acting Technology Lead and HIPAA
+                    Compliance Lead for over 3 years, I have successfully led
+                    both small and large teams — guiding projects from concept
+                    to production while ensuring momentum, quality, and timely
+                    delivery in fast-paced environments.
+                </p>
+
+                <p>
+                    My focus remains on writing clean, maintainable code and
+                    architecting reliable, scalable systems that perform under
+                    real-world demands.
+                </p>
+
+                <div className="about-divider" />
+
+                <p className="about-section-label">Let's connect!</p>
+
+                <div className="about-contact">
+                    <div>
+                        <span className="about-label">Email</span>
+                        <a href="mailto:alexbernal32396@gmail.com">
+                            alexbernal32396@gmail.com
+                        </a>
+                    </div>
+                    <div>
+                        <span className="about-label">GitHub</span>
+                        <a
+                            href="https://github.com/Alejandro-Bernal"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            github.com/Alejandro-Bernal
+                        </a>
+                    </div>
+                    <div>
+                        <span className="about-label">LinkedIn</span>
+                        <a
+                            href="https://www.linkedin.com/in/alejandro-bernal-cruz"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            linkedin.com/in/alejandro-bernal-cruz
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

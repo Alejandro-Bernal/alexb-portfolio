@@ -1,68 +1,57 @@
 .about-output {
     color: var(--text);
     font-family: var(--mono);
-    padding: 12px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    padding: 16px 24px;
+    line-height: 1.7;
 }
 
-.about-ascii {
-    color: var(--text-bright);
-    margin: 0;
-    font-size: 0.85em;
-    line-height: 1.2;
+/* Main wrapper for float layout */
+.about-wrapper {
+    display: block;
+    overflow: hidden; /* clears the float */
 }
 
-.about-title {
-    color: var(--text-bright);
-    margin: 0;
-    font-size: 1.05em;
+/* Portrait - floating left with text wrapping */
+.about-portrait {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(0, 255, 100, 0.15);
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 12px;
+    filter: grayscale(15%);
 }
 
-.about-subtitle {
-    color: var(--text-dim);
-    margin: 0;
-}
-
+/* Paragraph spacing - this fixes the "crowded" feeling */
 .about-output p {
     color: var(--text);
-    margin: 0;
-    line-height: 1.6;
+    margin: 0 0 14px 0; /* Adds nice vertical breathing room */
+    line-height: 1.65;
 }
 
-.about-hint {
-    color: var(--text-dim);
-    font-style: italic;
+/* Last paragraph before divider gets extra space */
+.about-output p:last-of-type {
+    margin-bottom: 20px;
 }
 
 .about-divider {
     border-top: 1px solid var(--border);
-    margin: 4px 0;
+    margin: 12px 0 16px;
+    clear: both; /* ensures divider goes full width */
 }
 
 .about-section-label {
     color: var(--text-bright) !important;
-}
-
-.about-output ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.about-output li::before {
-    content: "- ";
-    color: var(--text-dim);
+    margin-bottom: 6px;
 }
 
 .about-contact {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .about-label {
@@ -80,10 +69,10 @@
     text-decoration: underline;
 }
 
-.about-portrait {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border: 2px solid var(--accent);
-    filter: grayscale(20%);
+/* Responsive: slightly larger image on bigger screens */
+@media (min-width: 768px) {
+    .about-portrait {
+        width: 240px;
+        height: 240px;
+    }
 }
