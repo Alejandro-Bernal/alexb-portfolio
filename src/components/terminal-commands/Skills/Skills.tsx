@@ -1,11 +1,11 @@
 import "./Skills.css";
+import "../Help/HelpOutput.css";
 import { motion } from "framer-motion";
 import {
     SKILL_CATEGORIES,
     getSkillCategory,
     type Skill,
 } from "./skills.data";
-import { buildSkillCategoriesBox } from "./skillsBox";
 
 type SkillsListProps = {
     variant: "list";
@@ -55,12 +55,65 @@ function SkillBars({ skills }: { skills: Skill[] }) {
     );
 }
 
-export function SkillsList() {
-    const box = buildSkillCategoriesBox(SKILL_CATEGORIES);
-
+function SkillCategoryRow({
+    id,
+    title,
+    skillCount,
+}: {
+    id: string;
+    title: string;
+    skillCount: number;
+}) {
     return (
-        <div className="skills-output" aria-label="skill categories">
-            <pre className="skills-box">{box}</pre>
+        <li className="help-row">
+            <span className="help-cmd">{id}</span>
+            <div className="help-desc-block">
+                <span className="help-desc">{title}</span>
+                <span className="help-note">
+                    ({skillCount} {skillCount === 1 ? "skill" : "skills"})
+                </span>
+            </div>
+        </li>
+    );
+}
+
+export function SkillsList() {
+    return (
+        <div className="help-output" aria-label="skill categories">
+            <p className="help-name">
+                <span className="cmd">skills</span>
+            </p>
+
+            <div className="help-section">
+                <p className="help-section-title">Categories</p>
+                <ul className="help-table">
+                    {SKILL_CATEGORIES.map((category) => (
+                        <SkillCategoryRow
+                            key={category.id}
+                            id={category.id}
+                            title={category.title}
+                            skillCount={category.skills.length}
+                        />
+                    ))}
+                </ul>
+            </div>
+
+            <div className="help-section">
+                <p className="help-section-title">Usage</p>
+                <ul className="help-table">
+                    <li className="help-row">
+                        <span className="help-cmd">skills &lt;category&gt;</span>
+                        <div className="help-desc-block">
+                            <span className="help-desc">
+                                view proficiency for a category
+                            </span>
+                            <span className="help-note">
+                                e.g. skills fullstack
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     );
 }
