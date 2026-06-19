@@ -1,13 +1,64 @@
 import "./Projects.css";
+import "../Help/HelpOutput.css";
 import { getProject, PROJECTS } from "./projects.data";
-import { buildProjectsListBox } from "./projectsBox";
+
+function ProjectRow({
+    id,
+    name,
+    status,
+}: {
+    id: string;
+    name: string;
+    status: string;
+}) {
+    return (
+        <li className="help-row">
+            <span className="help-cmd">{id}</span>
+            <div className="help-desc-block">
+                <span className="help-desc">{name}</span>
+                <span className="help-note">[{status}]</span>
+            </div>
+        </li>
+    );
+}
 
 export function ProjectsList() {
-    const box = buildProjectsListBox(PROJECTS);
-
     return (
-        <div className="projects-output" aria-label="project directory listing">
-            <pre className="projects-box">{box}</pre>
+        <div className="help-output" aria-label="project directory listing">
+            <p className="help-name">
+                <span className="cmd">projects</span>
+            </p>
+
+            <div className="help-section">
+                <p className="help-section-title">Projects</p>
+                <ul className="help-table">
+                    {PROJECTS.map((project) => (
+                        <ProjectRow
+                            key={project.id}
+                            id={project.id}
+                            name={project.name}
+                            status={project.status}
+                        />
+                    ))}
+                </ul>
+            </div>
+
+            <div className="help-section">
+                <p className="help-section-title">Usage</p>
+                <ul className="help-table">
+                    <li className="help-row">
+                        <span className="help-cmd">projects &lt;id&gt;</span>
+                        <div className="help-desc-block">
+                            <span className="help-desc">
+                                open a project by id
+                            </span>
+                            <span className="help-note">
+                                e.g. projects pathzero
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     );
 }

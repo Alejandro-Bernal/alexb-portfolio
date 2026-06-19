@@ -73,7 +73,7 @@ export function ProjectsUsage({ error }: CommandUsageProps) {
                             </p>
                             <p className="usage-detail">
                                 example:{" "}
-                                <span className="cmd">projects portfolio</span>
+                                <span className="cmd">projects pathzero</span>
                             </p>
                         </>
                     }
