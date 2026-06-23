@@ -25,10 +25,6 @@ function ProjectRow({
 export function ProjectsList() {
     return (
         <div className="help-output" aria-label="project directory listing">
-            <p className="help-name">
-                <span className="cmd">projects</span>
-            </p>
-
             <div className="help-section">
                 <p className="help-section-title">Projects</p>
                 <ul className="help-table">
@@ -83,8 +79,14 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
 
                 {project.status === "nda" ? (
                     <p className="project-nda-notice">
-                        ⚠ confidential / NDA — client anonymized, no public
-                        repo, demo, or screenshots
+                        ⚠ proprietary / NDA — no public repo, demo, or
+                        screenshots. Descriptions focus on transferable skills;
+                        third-party services named only where publicly known.
+                    </p>
+                ) : project.status === "production" ? (
+                    <p className="project-access-notice">
+                        ⚠ internal production system — secured behind company
+                        infrastructure; no public repo, demo, or screenshots
                     </p>
                 ) : null}
 
@@ -100,6 +102,12 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                         </span>
                     </div>
                     <div className="project-meta-row">
+                        <span className="project-meta-key">company</span>
+                        <span className="project-meta-val">
+                            {project.company}
+                        </span>
+                    </div>
+                    <div className="project-meta-row">
                         <span className="project-meta-key">role</span>
                         <span className="project-meta-val">{project.role}</span>
                     </div>
@@ -111,7 +119,9 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                     </div>
                     <div className="project-meta-row">
                         <span className="project-meta-key">period</span>
-                        <span className="project-meta-val">{project.period}</span>
+                        <span className="project-meta-val">
+                            {project.period}
+                        </span>
                     </div>
                 </div>
 
@@ -125,30 +135,52 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                     ))}
                 </ul>
 
-                <p className="project-section-label">## links</p>
-                <ul className="project-links">
-                    {project.links.map((link) => (
-                        <li key={link.label}>
-                            <span className="project-link-key">
-                                {link.label.padEnd(6)}
-                            </span>
-                            {link.url ? (
-                                <a
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="project-link-url"
+                {project.skillsDemonstrated?.length ? (
+                    <>
+                        <p className="project-section-label">
+                            ## skills demonstrated
+                        </p>
+                        <ul className="project-highlights">
+                            {project.skillsDemonstrated.map((skill) => (
+                                <li key={skill}>{skill}</li>
+                            ))}
+                        </ul>
+                    </>
+                ) : null}
+
+                {project.links?.length ? (
+                    <>
+                        <p className="project-section-label">## links</p>
+                        <ul className="project-links">
+                            {project.links.map((link) => (
+                                <li
+                                    className="project-link-row"
+                                    key={link.label}
                                 >
-                                    {link.url}
-                                </a>
-                            ) : (
-                                <span className="project-link-note">
-                                    {link.note}
-                                </span>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                                    <span className="project-link-key">
+                                        {link.label}
+                                    </span>
+                                    <span className="project-link-val">
+                                        {link.url ? (
+                                            <a
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="project-link-url"
+                                            >
+                                                {link.url}
+                                            </a>
+                                        ) : (
+                                            <span className="project-link-note">
+                                                {link.note}
+                                            </span>
+                                        )}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                ) : null}
             </div>
         </div>
     );

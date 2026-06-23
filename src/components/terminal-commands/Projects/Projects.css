@@ -93,7 +93,8 @@
     font-style: italic;
 }
 
-.project-nda-notice {
+.project-nda-notice,
+.project-access-notice {
     margin: 0;
     padding: 6px 10px;
     border: 1px dashed var(--border);
@@ -125,9 +126,17 @@
 }
 
 .project-highlights li,
-.project-links li {
+.project-link-row {
     line-height: 1.5;
     color: var(--text);
+}
+
+.project-link-row {
+    display: grid;
+    grid-template-columns: 16ch 1fr;
+    column-gap: 2ch;
+    row-gap: 4px;
+    align-items: start;
 }
 
 .project-highlights li::before {
@@ -137,12 +146,32 @@
 
 .project-link-key {
     color: var(--text-dim);
+    white-space: nowrap;
+}
+
+.project-link-key::after {
+    content: ":";
+}
+
+.project-link-val {
+    min-width: 0;
+    color: var(--text);
+    overflow-wrap: anywhere;
 }
 
 .project-link-url {
     color: var(--text-bright);
     text-decoration: underline;
     text-underline-offset: 2px;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+}
+
+.project-body,
+.project-highlights li,
+.project-nda-notice,
+.project-access-notice {
+    overflow-wrap: anywhere;
 }
 
 .project-link-url:hover {
@@ -153,10 +182,25 @@
     color: var(--text-dim);
 }
 
+@media (max-width: 768px) {
+    .projects-output {
+        padding: 10px 8px;
+    }
+
+    .project-meta-val {
+        overflow-wrap: anywhere;
+    }
+}
+
 @media (max-width: 700px) {
-    .project-meta-row {
+    .project-meta-row,
+    .project-link-row {
         grid-template-columns: 1fr;
         gap: 2px;
+    }
+
+    .project-link-key {
+        white-space: normal;
     }
 
     .project-readme {
