@@ -15,12 +15,14 @@ export type Project = {
     id: string;
     name: string;
     status: ProjectStatus;
+    company: string;
     role: string;
     stack: string[];
     period: string;
     summary: string;
     highlights: string[];
-    links: ProjectLink[];
+    skillsDemonstrated?: string[];
+    links?: ProjectLink[];
 };
 
 export const PROJECTS: Project[] = [
@@ -28,6 +30,7 @@ export const PROJECTS: Project[] = [
         id: "pathzero",
         name: "AI for Smart Cities — LADOT Bike Route Safety",
         status: "archived",
+        company: "CSULA Senior Capstone",
         role: "Android Developer & Risk Algorithm Contributor — Senior Capstone",
         stack: [
             "Android Studio",
@@ -62,8 +65,9 @@ export const PROJECTS: Project[] = [
     {
         id: "verifyforge",
         name: "Real-Time Background Verification System",
-        status: "production",
-        role: "Lead Full-Stack Developer — Real-Time Verification Platform",
+        status: "nda",
+        company: "The Legal Leads",
+        role: "Lead Full-Stack Developer",
         stack: [
             "FastAPI",
             "Python",
@@ -79,31 +83,36 @@ export const PROJECTS: Project[] = [
         ],
         period: "2024 – 2025",
         summary:
-            "HIPAA-compliant real-time background verification platform handling both PII and PHI at scale. As Lead Full-Stack Developer I built the core services (FastAPI relay + Express PDF generation), developed the agent-facing Salesforce LWC, implemented a MongoDB caching layer, AWS monitoring infrastructure, and GitHub Actions CI/CD pipeline.",
+            "Led full-stack delivery of a HIPAA-aware, real-time verification platform used in live agent workflows. Owned backend relay services, Salesforce agent UI, caching, observability, and CI/CD — integrating with third-party verification providers whose names and contracts remain confidential.",
         highlights: [
-            "Architected FastAPI relay service connecting external verification APIs to Salesforce with strict real-time performance requirements for agents on live calls",
-            "Built Express + Puppeteer service that processed large volumes of sensitive data and automatically generated two separate PDFs (background report + medical data) attached to prospect records",
-            "Developed intuitive Lightning Web Component with guided step-by-step UX so agents could trigger and review verification results quickly during client calls",
-            "Implemented MongoDB caching layer (Dockerized on EC2) to reduce repeated external API calls and significantly improve response speed under high volume",
-            "Configured HIPAA-compliant AWS infrastructure on EC2 with CloudWatch alerts, EventBridge rules, and Lambda functions for monitoring and automated responses",
-            "Wrote Apex classes and test coverage for all Salesforce integration points and set up GitHub Actions CI/CD for review-gated deployments",
-            "Established automated cloud backups for both MongoDB and EC2 instances to ensure data durability and recovery readiness",
+            "Designed and built API relay services that connected Salesforce to external verification providers under strict real-time latency requirements",
+            "Delivered agent-facing Lightning Web Components with guided step-by-step UX for triggering and reviewing results during live calls",
+            "Implemented document generation and attachment workflows for sensitive records using Node.js and headless browser automation",
+            "Added a Dockerized caching layer to reduce redundant third-party calls and improve response times under high volume",
+            "Configured AWS monitoring, alerting, and automated response patterns for production reliability",
+            "Established review-gated CI/CD and Apex test coverage across Salesforce integration points",
         ],
-        links: [
-            { label: "repo", note: "private — proprietary client work" },
-            {
-                label: "demo",
-                note: "internal production system — not publicly accessible",
-            },
+        skillsDemonstrated: [
+            "Full-stack architecture & service design",
+            "FastAPI / Python backend development",
+            "Node.js / Express microservices",
+            "Salesforce LWC & Apex integration",
+            "HIPAA-aware infrastructure on AWS",
+            "MongoDB caching & Docker deployment",
+            "CI/CD with GitHub Actions",
+            "Real-time third-party API orchestration",
         ],
     },
     {
         id: "cloudsentinel",
-        name: "Plaid Operations Dashboard",
-        status: "production",
-        role: "Project Lead — The Legal Leads",
+        name: "In-House Verification Platform",
+        status: "nda",
+        company: "The Legal Leads",
+        role: "Project Lead",
         stack: [
             "Next.js",
+            "REST API",
+            "Webhooks",
             "AWS Textract",
             "EventBridge",
             "CloudWatch RUM",
@@ -112,26 +121,32 @@ export const PROJECTS: Project[] = [
         ],
         period: "2025",
         summary:
-            "Operations dashboard that replaced manual Plaid operations workflows. Served as project lead — owned the overall layout, component architecture, and system design while collaborating with the team on implementation. Cloud-native pipeline with full observability and Salesforce integration.",
+            "Project lead for a 3-person team building an in-house verification platform that reduced reliance on a prior third-party vendor workflow (including Plaid on the frontend). Owned planning, stakeholder updates, Next.js admin UI delivery, and Salesforce integration — while two full-stack developers built the internal REST API backend.",
         highlights: [
-            "Led project design — defined layout, components, and integration architecture",
-            "Next.js front end backed by AWS Textract, EventBridge, and CloudWatch RUM",
-            "Salesforce Apex classes and LWC for ops workflows and data handoff",
-            "Production-ready observability and monitoring for reliable financial data operations",
+            "Led delivery of an in-house verification platform, coordinating two full-stack developers through timelines, goals, and milestones",
+            "Ran recurring status updates and presentations for admin stakeholders throughout the project lifecycle",
+            "Built a mobile-friendly Next.js admin UI for creating and reviewing verification sessions",
+            "Implemented Salesforce integration with Apex classes and webhooks to connect agents to the team's REST API",
+            "Improved verification session throughput significantly compared to the previous third-party workflow",
+            "Integrated AWS Textract, EventBridge, and CloudWatch RUM with Salesforce for an observable production pipeline",
         ],
-        links: [
-            { label: "repo", note: "private — proprietary client work" },
-            {
-                label: "demo",
-                note: "internal production system — no public demo",
-            },
+        skillsDemonstrated: [
+            "Technical project leadership",
+            "Timeline, milestone & stakeholder management",
+            "Next.js / React UI development",
+            "Mobile-responsive admin interfaces",
+            "Salesforce Apex & webhook integrations",
+            "REST API integration patterns",
+            "AWS observability (EventBridge, CloudWatch RUM)",
+            "Cross-functional team coordination",
         ],
     },
     {
         id: "fraudshield",
         name: "Identity Verification & Fraud Prevention Pipeline",
-        status: "production",
-        role: "Full-Stack Developer — Identity Verification Integration",
+        status: "nda",
+        company: "The Legal Leads",
+        role: "Full-Stack Developer",
         stack: [
             "Salesforce LWC",
             "Apex",
@@ -142,20 +157,21 @@ export const PROJECTS: Project[] = [
         ],
         period: "2025",
         summary:
-            "Production identity verification system for high-volume lead generation. Built the Salesforce Lightning Web Component layer and Apex integration that allowed agents to trigger secure document validation (ID/passport) and real-time selfie identity matching through Plaid, with webhook-driven updates from a backend relay service.",
+            "Built the Salesforce-facing layer of a production identity verification workflow for high-volume lead operations. Focused on agent UX, Apex integrations, and webhook-driven status updates — including frontend integration with Plaid for document and selfie verification, while other provider integrations remain confidential.",
         highlights: [
-            "Developed intuitive Lightning Web Component that enabled agents to generate Plaid verification links for document and passport validation followed by selfie-based identity confirmation",
-            "Integrated Plaid APIs via Apex classes connected to a backend relay service, including webhook handling for real-time status updates",
-            "Collaborated with backend engineer to design the end-to-end verification flow between Salesforce and external identity services",
-            "Delivered a production-ready agent workflow for secure identity verification at scale while maintaining compliance standards",
-            "Actively troubleshot and iterated on the integration across frontend, Apex, and external API layers",
+            "Developed Lightning Web Components that let agents launch verification flows for document and identity confirmation",
+            "Integrated Plaid on the Salesforce frontend via Apex and a backend relay service, with webhook handling for real-time status updates",
+            "Collaborated with a backend engineer to design the end-to-end flow between Salesforce and external identity services",
+            "Delivered a production-ready agent workflow for secure verification at scale",
+            "Iterated across LWC, Apex, and integration layers based on live production feedback",
         ],
-        links: [
-            { label: "repo", note: "private — proprietary client work" },
-            {
-                label: "demo",
-                note: "internal production system — not publicly accessible",
-            },
+        skillsDemonstrated: [
+            "Salesforce LWC & Apex development",
+            "Third-party API integration (Plaid — frontend)",
+            "Webhook-driven async workflows",
+            "Agent UX design for high-volume ops",
+            "Cross-layer debugging (UI, Apex, APIs)",
+            "Production identity verification flows",
         ],
     },
 ];
