@@ -122,7 +122,10 @@ function App() {
                                 <div key={idx} className="terminal-entry">
                                     <div>
                                         <span className="prompt-prefix">
-                                            bernal-a@portfolio:~${" "}
+                                            <span className="prompt-host">
+                                                bernal-a@portfolio
+                                            </span>
+                                            :~${" "}
                                         </span>
                                         <span>{entry.command}</span>
                                     </div>
@@ -134,18 +137,33 @@ function App() {
 
                         <form className="command-line" onSubmit={onSubmit}>
                             <span className="prompt-prefix">
-                                bernal-a@portfolio:~${" "}
+                                <span className="prompt-host">
+                                    bernal-a@portfolio
+                                </span>
+                                :~${" "}
                             </span>
-                            <input
-                                ref={inputRef}
-                                className="terminal-input"
-                                type="text"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                placeholder='Type "help" and press Enter'
-                                autoComplete="off"
-                                spellCheck={false}
-                            />
+                            <div className="terminal-input-field">
+                                {!input ? (
+                                    <span
+                                        className="terminal-input-hint"
+                                        aria-hidden="true"
+                                    >
+                                        Type "help" and press Enter
+                                    </span>
+                                ) : null}
+                                <input
+                                    ref={inputRef}
+                                    className="terminal-input"
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) =>
+                                        setInput(e.target.value)
+                                    }
+                                    aria-label='Type "help" and press Enter'
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                />
+                            </div>
                         </form>
                     </div>
                 </div>

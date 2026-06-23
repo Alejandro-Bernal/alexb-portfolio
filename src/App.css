@@ -37,19 +37,47 @@
 .command-line {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0;
     margin-top: 12px;
+    row-gap: 4px;
 }
 
 .prompt-prefix {
     color: var(--text-dim);
     white-space: pre;
     user-select: none;
+    flex-shrink: 0;
+}
+
+.prompt-host {
+    display: inline;
+}
+
+.terminal-input-field {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.terminal-input-hint {
+    display: block;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: inherit;
+    line-height: inherit;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    pointer-events: none;
+    user-select: none;
 }
 
 .terminal-input {
-    flex: 1;
-    min-width: 0;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     background: transparent;
     border: none;
     outline: none;
@@ -58,15 +86,8 @@
     font-family: var(--mono);
     font-size: inherit;
     line-height: inherit;
-    color: var(
-        --text-dim
-    ); /* typed text blends with background so only placeholder shows */
-    caret-color: var(--cursor); /* blinking cursor matches current theme */
-}
-
-.terminal-input::placeholder {
-    color: var(--text-dim);
-    opacity: 1;
+    color: var(--text);
+    caret-color: var(--cursor);
 }
 
 .terminal-input:focus {
