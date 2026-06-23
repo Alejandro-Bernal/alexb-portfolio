@@ -1,5 +1,5 @@
 import "./Hero.css";
-import { useFiglet } from "../../hooks/useFiglet";
+import { FigletBanner } from "./FigletBanner";
 
 const mooseArt = `
                                                                      ###.                 
@@ -44,13 +44,10 @@ const mooseArt = `
 `;
 
 function Hero() {
-    const nameAscii = useFiglet("Alejandro Bernal Cruz", "Slant");
-
     return (
         <div className="ascii-hero">
             <div className="hero-text">
-                {/* Use <pre> + proper figlet class so newlines and spacing are preserved */}
-                <pre className="figlet">{nameAscii}</pre>
+                <FigletBanner text="Alejandro Bernal Cruz" font="Slant" />
 
                 <div className="hero-roles">
                     <div className="role">Project Manager</div>

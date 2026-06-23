@@ -1,24 +1,37 @@
 .ascii-hero {
     text-align: left;
     margin-bottom: 16px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .hero-text {
     margin: 4px 0 8px;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.figlet-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 0 8px 0;
 }
 
 /* === Figlet / ASCII Art text === */
 .figlet {
     font-family: var(--mono);
-    font-size: 11px; /* Figlet fonts usually look best small */
-    line-height: 1; /* Critical: keeps the letters aligned vertically */
-    margin: 0 0 8px 0;
+    font-size: 11px;
+    line-height: 1;
+    margin: 0;
     color: var(--text-bright);
-    white-space: pre; /* Preserves all spaces and newlines */
-    overflow-x: auto; /* Allows horizontal scroll if the art is very wide */
+    white-space: pre;
     user-select: none;
     letter-spacing: normal;
-    overflow-y: hidden; /* Hide vertical scrollbar if it appears */
+    display: inline-block;
+    transform-origin: left top;
+    width: max-content;
+    max-width: none;
 }
 
 /* Roles / normal text below the figlet */
@@ -115,4 +128,62 @@
     border-radius: 2px;
     font-size: 12px;
     border: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+    .fastfetch {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-top: 20px;
+        margin-bottom: 24px;
+    }
+
+    .fastfetch-info {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .ascii-moose {
+        align-self: center;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-roles {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 4px;
+        font-size: 16px;
+    }
+
+    .figlet {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-roles {
+        font-size: 14px;
+    }
+
+    .figlet {
+        font-size: 8px;
+    }
+
+    .fastfetch-info {
+        font-size: 12px;
+    }
+
+    .command-list {
+        gap: 4px;
+    }
+
+    .command-list span {
+        font-size: 11px;
+    }
 }

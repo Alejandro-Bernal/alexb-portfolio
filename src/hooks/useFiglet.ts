@@ -11,7 +11,7 @@ export function useFiglet(text: string, font: "Standard" | "Slant" = "Slant") {
         try {
             return figlet.textSync(text, {
                 font,
-                horizontalLayout: "default",
+                horizontalLayout: "fitted",
                 verticalLayout: "default",
             });
         } catch (e) {
