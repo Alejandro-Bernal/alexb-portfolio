@@ -101,6 +101,13 @@
     opacity: 0.7;
 }
 
+@media (max-width: 768px) {
+    .help-output {
+        padding: 10px 8px;
+        font-size: 0.93em;
+    }
+}
+
 @media (max-width: 700px) {
     .help-row {
         grid-template-columns: 1fr;
@@ -109,5 +116,10 @@
 
     .help-cmd {
         white-space: normal;
+    }
+
+    .help-desc,
+    .help-note {
+        overflow-wrap: anywhere;
     }
 }

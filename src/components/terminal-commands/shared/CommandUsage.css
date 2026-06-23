@@ -69,9 +69,22 @@
     margin: 0;
 }
 
+@media (max-width: 768px) {
+    .command-usage {
+        overflow-wrap: anywhere;
+    }
+}
+
 @media (max-width: 700px) {
     .usage-entry {
         grid-template-columns: 1fr;
+    }
+
+    .usage-entry--multiline .usage-command-block,
+    .usage-entry--multiline .usage-desc,
+    .usage-entry--multiline .usage-details {
+        grid-column: 1;
+        grid-row: auto;
     }
 
     .usage-details {

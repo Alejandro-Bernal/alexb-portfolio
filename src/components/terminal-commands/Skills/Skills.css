@@ -38,7 +38,7 @@
 
 .skill-row {
     display: grid;
-    grid-template-columns: 22ch minmax(12ch, 1fr) 5ch;
+    grid-template-columns: minmax(0, 22ch) minmax(8ch, 1fr) 5ch;
     gap: 8px;
     align-items: center;
 }
@@ -90,10 +90,26 @@
     text-align: right;
 }
 
+@media (max-width: 900px) {
+    .skill-row {
+        grid-template-columns: minmax(0, 1fr) minmax(6ch, 2fr) 5ch;
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-output {
+        padding: 10px 8px;
+    }
+}
+
 @media (max-width: 700px) {
     .skill-row {
         grid-template-columns: 1fr;
         gap: 4px;
+    }
+
+    .skill-name {
+        overflow-wrap: anywhere;
     }
 
     .skill-percent {

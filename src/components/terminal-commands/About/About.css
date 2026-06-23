@@ -54,6 +54,14 @@
     gap: 6px;
 }
 
+.about-contact > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    align-items: baseline;
+    overflow-wrap: anywhere;
+}
+
 .about-label {
     display: inline-block;
     min-width: 10ch;
@@ -67,6 +75,27 @@
 
 .about-contact a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .about-output {
+        padding: 12px 10px;
+        line-height: 1.6;
+    }
+
+    .about-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-portrait {
+        float: none;
+        width: min(220px, 72vw);
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0 auto 16px;
+        align-self: center;
+    }
 }
 
 /* Responsive: slightly larger image on bigger screens */
