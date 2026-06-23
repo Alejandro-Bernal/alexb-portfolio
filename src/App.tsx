@@ -39,9 +39,7 @@ function App() {
             case "projects-list":
                 return <ProjectsList />;
             case "projects-detail":
-                return (
-                    <ProjectDetail projectId={entry.projectId ?? ""} />
-                );
+                return <ProjectDetail projectId={entry.projectId ?? ""} />;
             case "projects-usage":
                 return (
                     <ProjectsUsage error="Unknown or incomplete projects command." />
@@ -50,9 +48,7 @@ function App() {
                 return <SkillsList />;
             case "skills-category":
                 return (
-                    <SkillsCategory
-                        categoryId={entry.skillsCategory ?? ""}
-                    />
+                    <SkillsCategory categoryId={entry.skillsCategory ?? ""} />
                 );
             case "skills-usage":
                 return (
