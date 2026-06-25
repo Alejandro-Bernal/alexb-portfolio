@@ -251,11 +251,16 @@ export function useTerminal() {
         requestAnimationFrame(() => inputRef.current?.focus());
     };
 
+    const inputHint = contactStep
+        ? CONTACT_INPUT_HINTS[contactStep]
+        : DEFAULT_INPUT_HINT;
+
     return {
         input,
         setInput,
         history,
         onSubmit,
         inputRef,
+        inputHint,
     };
 }

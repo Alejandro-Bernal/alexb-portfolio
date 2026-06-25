@@ -55,9 +55,14 @@
 }
 
 .terminal-input-field {
-    position: relative;
+    display: grid;
     flex: 1 1 0;
     min-width: 0;
+}
+
+.terminal-input-hint,
+.terminal-input {
+    grid-area: 1 / 1;
 }
 
 .terminal-input-hint {
@@ -74,10 +79,7 @@
 }
 
 .terminal-input {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
     background: transparent;
     border: none;
     outline: none;

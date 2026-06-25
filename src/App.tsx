@@ -22,7 +22,8 @@ import { THEMES, type TerminalEntry } from "./types/global.types";
 
 function App() {
     const { theme, changeTheme } = useTheme();
-    const { input, setInput, history, onSubmit, inputRef } = useTerminal();
+    const { input, setInput, history, onSubmit, inputRef, inputHint } =
+        useTerminal();
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -144,7 +145,7 @@ function App() {
                                         className="terminal-input-hint"
                                         aria-hidden="true"
                                     >
-                                        Type "help" and press Enter
+                                        {inputHint}
                                     </span>
                                 ) : null}
                                 <input
@@ -155,7 +156,7 @@ function App() {
                                     onChange={(e) =>
                                         setInput(e.target.value)
                                     }
-                                    aria-label='Type "help" and press Enter'
+                                    aria-label={inputHint}
                                     autoComplete="off"
                                     spellCheck={false}
                                 />
