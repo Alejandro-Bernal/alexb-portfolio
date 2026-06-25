@@ -12,7 +12,13 @@ import {
     SkillsList,
 } from "./components/terminal-commands/Skills/Skills";
 import {
-    ContactUsage,
+    ContactArgsHint,
+    ContactCancelled,
+    ContactPrompt,
+    ContactStart,
+    ContactSuccess,
+} from "./components/terminal-commands/Contact/Contact";
+import {
     ProjectsUsage,
     SkillsUsage,
 } from "./components/terminal-commands/shared/CommandUsage";
@@ -55,22 +61,36 @@ function App() {
                 return (
                     <SkillsUsage error="Unknown or incomplete skills command." />
                 );
-            case "contact-usage":
+            case "contact-start":
+                return <ContactStart />;
+            case "contact-prompt":
                 return (
-                    <ContactUsage error="Please add the required arguments for contact." />
+                    <ContactPrompt prompt={entry.contactPrompt ?? ""} />
+                );
+            case "contact-error":
+                return (
+                    <ContactPrompt
+                        prompt={entry.contactPrompt ?? ""}
+                        error={entry.contactError}
+                    />
                 );
             case "contact-success":
                 return (
-                    <div>
-                        <div>Message captured and logged to console.</div>
-                        <div>
-                            From: {entry.contactPayload?.name} (
-                            {entry.contactPayload?.email})
-                        </div>
-                        <div>Subject: {entry.contactPayload?.subject}</div>
-                        <div>Message: {entry.contactPayload?.message}</div>
-                    </div>
+                    <ContactSuccess
+                        payload={
+                            entry.contactPayload ?? {
+                                name: "",
+                                email: "",
+                                subject: "",
+                                message: "",
+                            }
+                        }
+                    />
                 );
+            case "contact-cancelled":
+                return <ContactCancelled />;
+            case "contact-args":
+                return <ContactArgsHint />;
             case "clear":
                 return null;
             case "empty":
