@@ -21,27 +21,6 @@ function HelpRow({ command, description, note }: HelpRowProps) {
     );
 }
 
-type HelpContactRowProps = {
-    description: string;
-    note?: string;
-};
-
-function HelpContactRow({ description, note }: HelpContactRowProps) {
-    return (
-        <li className="help-row help-row--multiline">
-            <div className="help-cmd-block">
-                <span className="help-cmd">contact "&lt;name&gt;"</span>
-                <span className="help-cmd">"&lt;email&gt;" "&lt;subject&gt;"</span>
-                <span className="help-cmd">"&lt;message&gt;"</span>
-            </div>
-            <div className="help-desc-block">
-                <span className="help-desc">{description}</span>
-                {note ? <span className="help-note">{note}</span> : null}
-            </div>
-        </li>
-    );
-}
-
 type HelpSectionProps = {
     title: string;
     children: ReactNode;
@@ -75,6 +54,11 @@ export function HelpOutput() {
                     description="list skill categories"
                 />
                 <HelpRow command="clear" description="clear the terminal screen" />
+                <HelpRow
+                    command="contact"
+                    description="send a message (interactive prompts)"
+                    note="type cancel to exit the form"
+                />
             </HelpSection>
 
             <HelpSection title="Usage">
@@ -87,10 +71,6 @@ export function HelpOutput() {
                     command="skills <category>"
                     description="view proficiency for a category"
                     note={SKILL_CATEGORY_IDS.join(", ")}
-                />
-                <HelpContactRow
-                    description="send a message"
-                    note='e.g. contact "Moose" "me@email.com" "Hello" "Your message here"'
                 />
             </HelpSection>
         </div>

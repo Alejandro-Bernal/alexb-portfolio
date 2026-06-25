@@ -83,36 +83,3 @@ export function ProjectsUsage({ error }: CommandUsageProps) {
     );
 }
 
-export function ContactUsage({ error }: CommandUsageProps) {
-    return (
-        <div className="command-usage">
-            {error ? <p className="usage-error">{error}</p> : null}
-            <div className="usage-section">
-                <div className="usage-entry usage-entry--multiline">
-                    <div className="usage-command-block">
-                        <span className="cmd">contact "&lt;name&gt;"</span>
-                        <span className="cmd">
-                            "&lt;email&gt;" "&lt;subject&gt;"
-                        </span>
-                        <span className="cmd">"&lt;message&gt;"</span>
-                    </div>
-                    <p className="usage-desc">
-                        send a message (logged to console for now)
-                    </p>
-                    <div className="usage-details">
-                        <p className="usage-detail">
-                            example:{" "}
-                            <span className="cmd">
-                                contact "Moose" "me@email.com" "New Project"
-                                "Let's build something"
-                            </span>
-                        </p>
-                        <p className="usage-detail">
-                            tip: wrap every value in quotes
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
