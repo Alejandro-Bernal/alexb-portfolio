@@ -1,7 +1,18 @@
 import { useRef, useState, type SubmitEventHandler } from "react";
+import {
+    applyContactStep,
+    CONTACT_INPUT_HINTS,
+    CONTACT_PROMPTS,
+    nextContactStep,
+    validateContactStep,
+    type ContactStep,
+} from "../components/terminal-commands/Contact/contactFlow";
 import { getProject } from "../components/terminal-commands/Projects/projects.data";
 import { getSkillCategory } from "../components/terminal-commands/Skills/skills.data";
-import { type TerminalEntry } from "../types/global.types";
+import {
+    type ContactPayload,
+    type TerminalEntry,
+} from "../types/global.types";
 
 function tokenizeCommand(input: string): string[] {
     const tokens = input.match(/"[^"]*"|'[^']*'|\S+/g) ?? [];
@@ -18,13 +29,108 @@ function tokenizeCommand(input: string): string[] {
     });
 }
 
+const DEFAULT_INPUT_HINT = 'Type "help" and press Enter';
+
 export function useTerminal() {
     const [input, setInput] = useState("");
     const [history, setHistory] = useState<TerminalEntry[]>([]);
+    const [contactStep, setContactStep] = useState<ContactStep | null>(null);
+    const [contactData, setContactData] = useState<Partial<ContactPayload>>(
+        {},
+    );
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const startContactFlow = (command: string) => {
+        setContactStep("name");
+        setContactData({});
+        setHistory((prev) => [
+            ...prev,
+            { command, kind: "contact-start" },
+        ]);
+    };
+
+    const cancelContactFlow = (command: string) => {
+        setContactStep(null);
+        setContactData({});
+        setHistory((prev) => [
+            ...prev,
+            { command, kind: "contact-cancelled" },
+        ]);
+    };
+
+    const completeContactFlow = (
+        command: string,
+        payload: ContactPayload,
+    ) => {
+        console.log("[contact] payload", payload);
+
+        setContactStep(null);
+        setContactData({});
+        setHistory((prev) => [
+            ...prev,
+            {
+                command,
+                kind: "contact-success",
+                contactPayload: payload,
+            },
+        ]);
+    };
+
+    const handleContactInput = (raw: string) => {
+        const trimmed = raw.trim();
+
+        if (trimmed.toLowerCase() === "cancel") {
+            cancelContactFlow(trimmed);
+            return;
+        }
+
+        if (!contactStep) {
+            return;
+        }
+
+        const validation = validateContactStep(contactStep, raw, contactData);
+
+        if (!validation.ok) {
+            setHistory((prev) => [
+                ...prev,
+                {
+                    command: trimmed,
+                    kind: "contact-error",
+                    contactPrompt: CONTACT_PROMPTS[contactStep],
+                    contactError: validation.error,
+                },
+            ]);
+            return;
+        }
+
+        const updatedData = applyContactStep(contactStep, raw, contactData);
+        setContactData(updatedData);
+
+        const nextStep = nextContactStep(contactStep);
+
+        if (nextStep === "done") {
+            completeContactFlow(trimmed, updatedData as ContactPayload);
+            return;
+        }
+
+        setContactStep(nextStep);
+        setHistory((prev) => [
+            ...prev,
+            {
+                command: trimmed,
+                kind: "contact-prompt",
+                contactPrompt: CONTACT_PROMPTS[nextStep],
+            },
+        ]);
+    };
 
     const runCommand = (raw: string) => {
         const trimmed = raw.trim();
+
+        if (contactStep) {
+            handleContactInput(raw);
+            return;
+        }
 
         if (trimmed === "") {
             setHistory((prev) => [...prev, { command: "", kind: "empty" }]);
@@ -116,39 +222,22 @@ export function useTerminal() {
         if (command === "contact") {
             const args = tokens.slice(1);
 
-            if (args.length < 4) {
+            if (args.length > 0) {
                 setHistory((prev) => [
                     ...prev,
-                    { command: trimmed, kind: "contact-usage" },
+                    { command: trimmed, kind: "contact-args" },
                 ]);
                 return;
             }
 
-            const [name, email, subject, ...messageParts] = args;
-            const message = messageParts.join(" ");
-
-            const contactPayload = {
-                name,
-                email,
-                subject,
-                message,
-            };
-
-            console.log("[contact] payload", contactPayload);
-
-            setHistory((prev) => [
-                ...prev,
-                {
-                    command: trimmed,
-                    kind: "contact-success",
-                    contactPayload,
-                },
-            ]);
+            startContactFlow(trimmed);
             return;
         }
 
         if (command === "clear") {
             setHistory([]);
+            setContactStep(null);
+            setContactData({});
             return;
         }
 
