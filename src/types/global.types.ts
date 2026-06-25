@@ -13,8 +13,12 @@ export type CommandKind =
     | "skills-list"
     | "skills-category"
     | "skills-usage"
-    | "contact-usage"
+    | "contact-start"
+    | "contact-prompt"
+    | "contact-error"
     | "contact-success"
+    | "contact-cancelled"
+    | "contact-args"
     | "clear"
     | "unknown";
 
@@ -30,6 +34,8 @@ export type TerminalEntry = {
     command: string;
     kind: CommandKind;
     contactPayload?: ContactPayload;
+    contactPrompt?: string;
+    contactError?: string;
     skillsCategory?: string;
     projectId?: string;
 };
