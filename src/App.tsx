@@ -1,8 +1,11 @@
 import "./App.css";
 import { useEffect, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
 import Hero from "./components/hero/Hero";
 import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
 import { About } from "./components/terminal-commands/About/About";
+import Neofetch from "./components/terminal-commands/Neofetch/Neofetch";
+import { ContactInfo } from "./components/terminal-commands/Contact/ContactInfo";
 import {
     ProjectDetail,
     ProjectsList,
@@ -44,6 +47,8 @@ function TerminalPortfolio() {
                 return <HelpOutput />;
             case "about":
                 return <About />;
+            case "moose":
+                return <Neofetch />;
             case "projects-list":
                 return <ProjectsList />;
             case "projects-detail":

@@ -148,6 +148,14 @@ export function useTerminal() {
             return;
         }
 
+        if (command === "moose") {
+            setHistory((prev) => [
+                ...prev,
+                { command: trimmed, kind: "moose" },
+            ]);
+            return;
+        }
+
         if (command === "skills") {
             const args = tokens.slice(1);
             const subcommand = (args[0] ?? "").toLowerCase();
