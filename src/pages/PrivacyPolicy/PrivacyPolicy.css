@@ -1,0 +1,168 @@
+.privacy-body {
+    max-width: min(92ch, 100%);
+}
+
+.privacy-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.privacy-path {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.95em;
+}
+
+.privacy-footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.privacy-footer p {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+/* Termly export: keep markup verbatim; restyle for the terminal theme */
+.privacy-termly {
+    font-family: var(--mono), ui-monospace, monospace;
+    color: var(--text);
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.privacy-termly h1,
+.privacy-termly h2,
+.privacy-termly h3,
+.privacy-termly h4 {
+    color: var(--text-bright);
+    text-shadow: var(--glow);
+    font-family: inherit;
+    line-height: 1.3;
+}
+
+.privacy-termly h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+}
+
+.privacy-termly h2 {
+    margin: 1.5rem 0 0.65rem;
+    font-size: 1.1rem;
+}
+
+.privacy-termly h3,
+.privacy-termly h4 {
+    margin: 1.1rem 0 0.5rem;
+    font-size: 1rem;
+}
+
+.privacy-termly p,
+.privacy-termly li,
+.privacy-termly div,
+.privacy-termly span {
+    color: inherit;
+}
+
+.privacy-termly ul,
+.privacy-termly ol {
+    margin: 0.4rem 0 0.8rem;
+    padding-left: 1.4em;
+}
+
+.privacy-termly li {
+    margin-bottom: 0.35rem;
+}
+
+.privacy-termly a,
+.privacy-termly a * {
+    color: var(--accent) !important;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.privacy-termly a:hover {
+    text-decoration: underline;
+    text-shadow: var(--glow);
+}
+
+.privacy-termly strong,
+.privacy-termly b {
+    color: var(--text-bright);
+    font-weight: 600;
+}
+
+/* Beat Termly's injected Arial/black !important palette */
+.privacy-termly [data-custom-class="title"],
+.privacy-termly [data-custom-class="title"] * {
+    font-family: inherit !important;
+    font-size: 1.5rem !important;
+    color: var(--text-bright) !important;
+}
+
+.privacy-termly [data-custom-class="subtitle"],
+.privacy-termly [data-custom-class="subtitle"] * {
+    font-family: inherit !important;
+    font-size: 0.95rem !important;
+    color: var(--text-dim) !important;
+}
+
+.privacy-termly [data-custom-class="heading_1"],
+.privacy-termly [data-custom-class="heading_1"] * {
+    font-family: inherit !important;
+    font-size: 1.15rem !important;
+    color: var(--text-bright) !important;
+}
+
+.privacy-termly [data-custom-class="heading_2"],
+.privacy-termly [data-custom-class="heading_2"] * {
+    font-family: inherit !important;
+    font-size: 1.05rem !important;
+    color: var(--text-bright) !important;
+}
+
+.privacy-termly [data-custom-class="body"],
+.privacy-termly [data-custom-class="body"] * {
+    background: transparent !important;
+}
+
+.privacy-termly [data-custom-class="body_text"],
+.privacy-termly [data-custom-class="body_text"] * {
+    color: var(--text) !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
+.privacy-termly [data-custom-class="link"],
+.privacy-termly [data-custom-class="link"] * {
+    color: var(--accent) !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    word-break: break-word !important;
+}
+
+/* Inline color styles from the Termly export */
+.privacy-termly [style*="color"] {
+    color: var(--text) !important;
+}
+
+.privacy-termly a[style*="color"],
+.privacy-termly a [style*="color"] {
+    color: var(--accent) !important;
+}
+
+/* Hide the Termly logo bar; keep the generated attribution footer text */
+.privacy-termly > span[style*="background: url"] {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    .privacy-termly h1,
+    .privacy-termly [data-custom-class="title"],
+    .privacy-termly [data-custom-class="title"] * {
+        font-size: 1.25rem !important;
+    }
+}
