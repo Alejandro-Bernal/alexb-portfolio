@@ -24,7 +24,7 @@
     font-size: 11px;
     line-height: 1;
     margin: 0;
-    color: var(--text-bright);
+    color: var(--accent);
     white-space: pre;
     user-select: none;
     letter-spacing: normal;
@@ -37,7 +37,7 @@
 /* Roles / normal text below the figlet */
 .hero-roles {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: 20px;
     color: var(--text-dim);
     line-height: 1.25;
@@ -46,9 +46,9 @@
 .role {
 }
 
-/* Optional: if you want the figlet to have a slight terminal glow */
+/* Figlet styling: keep it crisp and terminal-like */
 .figlet {
-    text-shadow: 0 0 3px color-mix(in srgb, var(--text-bright) 30%, transparent);
+    text-shadow: none;
 }
 
 /* === Fastfetch mock - moose as the left "logo" + system info === */
