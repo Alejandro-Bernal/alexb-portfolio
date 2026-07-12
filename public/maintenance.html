@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+        <meta name="robots" content="noindex" />
+        <title>moosey-os — maintenance</title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <style>
+            :root {
+                --mono:
+                    ui-monospace, "JetBrains Mono", "Cascadia Code", "Fira Code",
+                    "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono",
+                    monospace;
+                --bg: #0a0c0a;
+                --bg-elevated: #111411;
+                --bg-header: #0f120f;
+                --text: #00ff9f;
+                --text-dim: #00cc7a;
+                --text-bright: #66ffbb;
+                --accent: #00ff9f;
+                --border: #003322;
+                --border-strong: #004d33;
+                --glow: 0 0 6px rgba(0, 255, 159, 0.5);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html {
+                color-scheme: dark;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100dvh;
+                background: #000;
+                color: var(--text);
+                font-family: var(--mono);
+                font-size: 15px;
+                line-height: 1.55;
+                letter-spacing: 0.3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: max(12px, env(safe-area-inset-top))
+                    max(12px, env(safe-area-inset-right))
+                    max(12px, env(safe-area-inset-bottom))
+                    max(12px, env(safe-area-inset-left));
+            }
+
+            .wrap {
+                width: 100%;
+                max-width: 720px;
+            }
+
+            .terminal-window {
+                background: var(--bg);
+                border: 1px solid var(--border-strong);
+                box-shadow: 0 0 0 1px var(--border);
+            }
+
+            .terminal-header {
+                background: var(--bg-header);
+                border-bottom: 1px solid var(--border);
+                padding: 6px 12px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                user-select: none;
+                color: var(--text-dim);
+                min-width: 0;
+            }
+
+            .terminal-header > span:last-child {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                min-width: 0;
+            }
+
+            .terminal-dots {
+                display: flex;
+                gap: 6px;
+                flex-shrink: 0;
+            }
+
+            .terminal-dots span {
+                width: 11px;
+                height: 11px;
+                border-radius: 50%;
+                background: var(--border-strong);
+            }
+
+            .terminal-dots span:nth-child(1) {
+                background: #ff5f56;
+            }
+            .terminal-dots span:nth-child(2) {
+                background: #ffbd2e;
+            }
+            .terminal-dots span:nth-child(3) {
+                background: #27c93f;
+            }
+
+            .terminal-body {
+                padding: 20px 24px;
+            }
+
+            .prompt {
+                color: var(--text-dim);
+                margin: 0 0 14px;
+            }
+
+            .prompt .host {
+                color: var(--text-bright);
+                text-shadow: var(--glow);
+            }
+
+            .prompt .cmd {
+                color: var(--text);
+            }
+
+            h1 {
+                margin: 0 0 8px;
+                font-size: 1.35rem;
+                font-weight: 600;
+                color: var(--text-bright);
+                text-shadow: var(--glow);
+            }
+
+            .status {
+                margin: 0 0 18px;
+                color: var(--text-dim);
+                font-size: 0.95em;
+            }
+
+            .status .code {
+                color: var(--accent);
+            }
+
+            .line {
+                margin: 0 0 10px;
+                color: var(--text);
+            }
+
+            .dim {
+                color: var(--text-dim);
+            }
+
+            .bright {
+                color: var(--text-bright);
+            }
+
+            .joke {
+                margin: 18px 0;
+                padding: 12px 14px;
+                border-left: 2px solid var(--accent);
+                background: color-mix(in srgb, var(--accent) 7%, transparent);
+            }
+
+            .joke p {
+                margin: 0 0 8px;
+            }
+
+            .joke p:last-child {
+                margin-bottom: 0;
+            }
+
+            .log {
+                margin: 16px 0 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .log li {
+                margin: 0 0 6px;
+                color: var(--text-dim);
+            }
+
+            .log li::before {
+                content: "→ ";
+                color: var(--accent);
+            }
+
+            .cursor {
+                display: inline-block;
+                width: 0.6ch;
+                height: 1.1em;
+                margin-left: 2px;
+                vertical-align: text-bottom;
+                background: var(--accent);
+                box-shadow: var(--glow);
+                animation: blink 1s step-end infinite;
+            }
+
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            .footer {
+                margin-top: 22px;
+                padding-top: 14px;
+                border-top: 1px solid var(--border);
+                color: var(--text-dim);
+                font-size: 0.9em;
+            }
+
+            .footer a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+
+            .footer a:hover {
+                text-decoration: underline;
+                text-shadow: var(--glow);
+            }
+
+            @media (max-width: 480px) {
+                body {
+                    font-size: 14px;
+                }
+
+                .terminal-body {
+                    padding: 14px;
+                }
+
+                h1 {
+                    font-size: 1.15rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="terminal-window" role="status" aria-live="polite">
+                <div class="terminal-header">
+                    <div class="terminal-dots" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>moose@moosey-os — maintenance</span>
+                </div>
+
+                <div class="terminal-body">
+                    <p class="prompt">
+                        <span class="host">moose@moosey-os</span>
+                        <span class="dim">:~$</span>
+                        <span class="cmd"> systemctl status moosey-os</span>
+                    </p>
+
+                    <h1>// site offline for enhancements</h1>
+                    <p class="status">
+                        Active:
+                        <span class="code">maintenance (degraded)</span>
+                        · since a few coffee refills ago
+                    </p>
+
+                    <p class="line">
+                        The kernel is fine. The packages are restless.
+                        We're patching reality with
+                        <span class="bright">apt</span> and good intentions.
+                    </p>
+
+                    <div class="joke">
+                        <p class="dim"># fortune | cowsay -f moose</p>
+                        <p>
+                            There are only 10 types of people who understand
+                            binary —
+                        </p>
+                        <p class="bright">
+                            those who do, and those who don't.
+                        </p>
+                        <p class="dim" style="margin-top: 10px">
+                            (A third type tried
+                            <span class="bright">sudo make me a sandwich</span>
+                            and is still waiting on root.)
+                        </p>
+                    </div>
+
+                    <ul class="log">
+                        <li>stopping public traffic… ok</li>
+                        <li>backing up vibes… ok</li>
+                        <li>upgrading moosey-os userspace… in progress</li>
+                        <li>please do not <span class="bright">Ctrl+C</span> the universe</li>
+                    </ul>
+
+                    <p class="line" style="margin-top: 16px">
+                        <span class="host">moose@moosey-os</span>
+                        <span class="dim">:~$</span>
+                        <span class="cmd"> watch -n 1 "echo soon™"</span
+                        ><span class="cursor" aria-hidden="true"></span>
+                    </p>
+
+                    <div class="footer">
+                        <p>
+                            We'll be back shortly. If you're looking for the
+                            human:
+                            <a href="mailto:contact@bernalforge.dev"
+                                >contact@bernalforge.dev</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

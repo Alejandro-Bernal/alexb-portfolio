@@ -1,0 +1,128 @@
+.about-output {
+    color: var(--text);
+    font-family: var(--mono);
+    padding: 16px 24px;
+    line-height: 1.7;
+}
+
+/* Main wrapper for float layout */
+.about-wrapper {
+    display: block;
+    overflow: hidden; /* clears the float */
+}
+
+/* Portrait - floating left with text wrapping */
+.about-portrait {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(0, 255, 100, 0.15);
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 12px;
+    filter: grayscale(15%);
+}
+
+/* Paragraph spacing - this fixes the "crowded" feeling */
+.about-output p {
+    color: var(--text);
+    margin: 0 0 14px 0; /* Adds nice vertical breathing room */
+    line-height: 1.65;
+}
+
+/* Last paragraph before divider gets extra space */
+.about-output p:last-of-type {
+    margin-bottom: 20px;
+}
+
+.about-divider {
+    border-top: 1px solid var(--border);
+    margin: 12px 0 16px;
+    clear: both; /* ensures divider goes full width */
+}
+
+.about-section-label {
+    color: var(--text-bright) !important;
+    margin-bottom: 6px;
+}
+
+.about-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.about-contact > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    align-items: baseline;
+    overflow-wrap: anywhere;
+}
+
+.about-label {
+    display: inline-block;
+    min-width: 10ch;
+    color: var(--text-dim);
+}
+
+.about-contact a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.about-contact a:hover {
+    text-decoration: underline;
+}
+
+.about-contact-note {
+    color: var(--text-dim);
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin-top: 12px;
+}
+
+.about-contact-note a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.about-contact-note a:hover {
+    text-decoration: underline;
+}
+
+.about-contact-note .cmd {
+    color: var(--text-bright);
+    font-family: var(--mono);
+}
+
+@media (max-width: 700px) {
+    .about-output {
+        padding: 12px 10px;
+        line-height: 1.6;
+    }
+
+    .about-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-portrait {
+        float: none;
+        width: min(220px, 72vw);
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0 auto 16px;
+        align-self: center;
+    }
+}
+
+/* Responsive: slightly larger image on bigger screens */
+@media (min-width: 768px) {
+    .about-portrait {
+        width: 240px;
+        height: 240px;
+    }
+}

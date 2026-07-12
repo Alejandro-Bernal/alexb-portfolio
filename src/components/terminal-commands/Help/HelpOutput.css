@@ -1,37 +1,125 @@
-/* src/components/terminal-commands/Help.css */
 .help-output {
     color: var(--text);
     font-family: var(--mono);
-    padding: 20px;
-}
-
-.help-header {
-    padding-bottom: 15px;
-}
-
-.help-output p {
-    color: var(--text-dim);
-    margin: 0 0 4px 0;
-}
-
-.help-output ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    padding: 12px 20px;
+    font-size: 0.95em;
+    line-height: 1.5;
 }
 
 .help-output .cmd {
     color: var(--text-bright);
 }
 
-.help-option {
-    display: flex;
-    flex-direction: row;
+.help-name {
+    margin: 0 0 2px 0;
+    color: var(--text-bright);
 }
 
-.help-option .cmd {
-    min-width: 12ch; /* fixed column width — adjust to taste */
+.help-tagline {
+    margin: 0 0 14px 0;
+    color: var(--text-dim);
+}
+
+.help-section {
+    margin-bottom: 14px;
+}
+
+.help-section:last-child {
+    margin-bottom: 0;
+}
+
+.help-section-title {
+    margin: 0 0 6px 0;
+    color: var(--text-bright);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.88em;
+}
+
+.help-section-title::before {
+    content: "── ";
+    color: var(--text-dim);
+}
+
+.help-section-title::after {
+    content: " ──";
+    color: var(--text-dim);
+}
+
+.help-table {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.help-row {
+    display: grid;
+    grid-template-columns: minmax(14ch, max-content) 1fr;
+    gap: 12px 20px;
+    align-items: start;
+}
+
+.help-cmd {
+    color: var(--text-bright);
+    white-space: nowrap;
+}
+
+.help-row--multiline {
+    align-items: start;
+}
+
+.help-cmd-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.help-desc-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.help-desc {
+    color: var(--text-dim);
+}
+
+.help-note {
+    color: var(--text-dim);
+    opacity: 0.85;
+    font-size: 0.92em;
+}
+
+.help-note::before {
+    content: "└ ";
+    color: var(--accent);
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .help-output {
+        padding: 10px 8px;
+        font-size: 0.93em;
+    }
+}
+
+@media (max-width: 700px) {
+    .help-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .help-cmd {
+        white-space: normal;
+    }
+
+    .help-desc,
+    .help-note {
+        overflow-wrap: anywhere;
+    }
 }
