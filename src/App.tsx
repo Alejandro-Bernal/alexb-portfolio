@@ -22,11 +22,12 @@ import {
     ProjectsUsage,
     SkillsUsage,
 } from "./components/terminal-commands/shared/CommandUsage";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
 import { THEMES, type TerminalEntry } from "./types/global.types";
 
-function App() {
+function TerminalPortfolio() {
     const { theme, changeTheme } = useTheme();
     const { input, setInput, history, onSubmit, inputRef, inputHint } =
         useTerminal();
@@ -186,6 +187,15 @@ function App() {
                 </div>
             </div>
         </>
+    );
+}
+
+function App() {
+    return (
+        <Routes>
+            <Route path="/" element={<TerminalPortfolio />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        </Routes>
     );
 }
 
