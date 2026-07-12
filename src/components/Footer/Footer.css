@@ -1,0 +1,31 @@
+.footer {
+    margin-top: auto;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.copyright {
+    margin: 0;
+}
+
+.privacy-link {
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.privacy-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}

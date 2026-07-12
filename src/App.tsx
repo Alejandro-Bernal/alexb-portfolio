@@ -26,6 +26,7 @@ import {
     SkillsUsage,
 } from "./components/terminal-commands/shared/CommandUsage";
 import { Resume } from "./components/terminal-commands/Resume/Resume";
+import { Footer } from "./components/Footer/Footer";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
@@ -195,6 +196,7 @@ function TerminalPortfolio() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }
