@@ -86,12 +86,16 @@ function TerminalPortfolio() {
                                 message: "",
                             }
                         }
+                        delivered={entry.contactDelivered}
+                        message={entry.contactMessage}
                     />
                 );
             case "contact-cancelled":
                 return <ContactCancelled />;
             case "contact-args":
                 return <ContactArgsHint />;
+            case "contact-info":
+                return <ContactInfo />;
             case "clear":
                 return null;
             case "empty":

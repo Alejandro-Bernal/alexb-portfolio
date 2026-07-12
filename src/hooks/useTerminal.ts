@@ -9,10 +9,8 @@ import {
 } from "../components/terminal-commands/Contact/contactFlow";
 import { getProject } from "../components/terminal-commands/Projects/projects.data";
 import { getSkillCategory } from "../components/terminal-commands/Skills/skills.data";
-import {
-    type ContactPayload,
-    type TerminalEntry,
-} from "../types/global.types";
+import { submitContact } from "../services/ContactService";
+import { type ContactPayload, type TerminalEntry } from "../types/global.types";
 
 function tokenizeCommand(input: string): string[] {
     const tokens = input.match(/"[^"]*"|'[^']*'|\S+/g) ?? [];
@@ -35,34 +33,29 @@ export function useTerminal() {
     const [input, setInput] = useState("");
     const [history, setHistory] = useState<TerminalEntry[]>([]);
     const [contactStep, setContactStep] = useState<ContactStep | null>(null);
-    const [contactData, setContactData] = useState<Partial<ContactPayload>>(
-        {},
-    );
+    const [contactData, setContactData] = useState<Partial<ContactPayload>>({});
     const inputRef = useRef<HTMLInputElement>(null);
 
     const startContactFlow = (command: string) => {
         setContactStep("name");
         setContactData({});
-        setHistory((prev) => [
-            ...prev,
-            { command, kind: "contact-start" },
-        ]);
+        setHistory((prev) => [...prev, { command, kind: "contact-start" }]);
     };
 
     const cancelContactFlow = (command: string) => {
         setContactStep(null);
         setContactData({});
-        setHistory((prev) => [
-            ...prev,
-            { command, kind: "contact-cancelled" },
-        ]);
+        setHistory((prev) => [...prev, { command, kind: "contact-cancelled" }]);
     };
 
-    const completeContactFlow = (
+    const completeContactFlow = async (
         command: string,
         payload: ContactPayload,
     ) => {
         console.log("[contact] payload", payload);
+
+        // Submit to backend
+        const result = await submitContact(payload);
 
         setContactStep(null);
         setContactData({});
@@ -72,6 +65,8 @@ export function useTerminal() {
                 command,
                 kind: "contact-success",
                 contactPayload: payload,
+                contactDelivered: result.success,
+                contactMessage: result.message,
             },
         ]);
     };

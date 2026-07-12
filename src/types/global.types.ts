@@ -36,6 +36,8 @@ export type TerminalEntry = {
     contactPayload?: ContactPayload;
     contactPrompt?: string;
     contactError?: string;
+    contactDelivered?: boolean;
+    contactMessage?: string;
     skillsCategory?: string;
     projectId?: string;
 };
