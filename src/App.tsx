@@ -1,14 +1,39 @@
 import "./App.css";
 import { useEffect, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
 import Hero from "./components/hero/Hero";
 import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
+import { About } from "./components/terminal-commands/About/About";
+import Neofetch from "./components/terminal-commands/Neofetch/Neofetch";
+import { ContactInfo } from "./components/terminal-commands/Contact/ContactInfo";
+import {
+    ProjectDetail,
+    ProjectsList,
+} from "./components/terminal-commands/Projects/Projects";
+import {
+    SkillsCategory,
+    SkillsList,
+} from "./components/terminal-commands/Skills/Skills";
+import {
+    ContactArgsHint,
+    ContactCancelled,
+    ContactPrompt,
+    ContactStart,
+    ContactSuccess,
+} from "./components/terminal-commands/Contact/Contact";
+import {
+    ProjectsUsage,
+    SkillsUsage,
+} from "./components/terminal-commands/shared/CommandUsage";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
 import { THEMES, type TerminalEntry } from "./types/global.types";
 
-function App() {
+function TerminalPortfolio() {
     const { theme, changeTheme } = useTheme();
-    const { input, setInput, history, onSubmit, inputRef } = useTerminal();
+    const { input, setInput, history, onSubmit, inputRef, inputHint } =
+        useTerminal();
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -20,13 +45,67 @@ function App() {
         switch (entry.kind) {
             case "help":
                 return <HelpOutput />;
+            case "about":
+                return <About />;
+            case "moose":
+                return <Neofetch />;
+            case "projects-list":
+                return <ProjectsList />;
+            case "projects-detail":
+                return <ProjectDetail projectId={entry.projectId ?? ""} />;
+            case "projects-usage":
+                return (
+                    <ProjectsUsage error="Unknown or incomplete projects command." />
+                );
+            case "skills-list":
+                return <SkillsList />;
+            case "skills-category":
+                return (
+                    <SkillsCategory categoryId={entry.skillsCategory ?? ""} />
+                );
+            case "skills-usage":
+                return (
+                    <SkillsUsage error="Unknown or incomplete skills command." />
+                );
+            case "contact-start":
+                return <ContactStart />;
+            case "contact-prompt":
+                return <ContactPrompt prompt={entry.contactPrompt ?? ""} />;
+            case "contact-error":
+                return (
+                    <ContactPrompt
+                        prompt={entry.contactPrompt ?? ""}
+                        error={entry.contactError}
+                    />
+                );
+            case "contact-success":
+                return (
+                    <ContactSuccess
+                        payload={
+                            entry.contactPayload ?? {
+                                name: "",
+                                email: "",
+                                subject: "",
+                                message: "",
+                            }
+                        }
+                        delivered={entry.contactDelivered}
+                        message={entry.contactMessage}
+                    />
+                );
+            case "contact-cancelled":
+                return <ContactCancelled />;
+            case "contact-args":
+                return <ContactArgsHint />;
+            case "contact-info":
+                return <ContactInfo />;
             case "clear":
                 return null;
             case "empty":
                 return (
                     <div>
-                        Try using <span className="cmd">help</span> to see the
-                        list of available commands.
+                        Try <span className="cmd">help</span> to see available
+                        commands.
                     </div>
                 );
             case "unknown":
@@ -50,7 +129,7 @@ function App() {
                 ))}
             </div>
 
-            <div id="center">
+            <div id="center" onClick={() => inputRef.current?.focus()}>
                 <div className="terminal-window">
                     <div className="terminal-header">
                         <div className="terminal-dots">
@@ -68,7 +147,10 @@ function App() {
                                 <div key={idx} className="terminal-entry">
                                     <div>
                                         <span className="prompt-prefix">
-                                            bernal-a@portfolio:~${" "}
+                                            <span className="prompt-host">
+                                                bernal-a@portfolio
+                                            </span>
+                                            :~${" "}
                                         </span>
                                         <span>{entry.command}</span>
                                     </div>
@@ -80,23 +162,46 @@ function App() {
 
                         <form className="command-line" onSubmit={onSubmit}>
                             <span className="prompt-prefix">
-                                bernal-a@portfolio:~${" "}
+                                <span className="prompt-host">
+                                    bernal-a@portfolio
+                                </span>
+                                :~${" "}
                             </span>
-                            <input
-                                ref={inputRef}
-                                className="terminal-input"
-                                type="text"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                placeholder='Type "help" and press Enter'
-                                autoComplete="off"
-                                spellCheck={false}
-                            />
+                            <div className="terminal-input-field">
+                                {!input ? (
+                                    <span
+                                        className="terminal-input-hint"
+                                        aria-hidden="true"
+                                    >
+                                        {inputHint}
+                                    </span>
+                                ) : null}
+                                <input
+                                    ref={inputRef}
+                                    className="terminal-input"
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    aria-label={inputHint}
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    autoFocus
+                                />
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </>
+    );
+}
+
+function App() {
+    return (
+        <Routes>
+            <Route path="/" element={<TerminalPortfolio />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        </Routes>
     );
 }
 
