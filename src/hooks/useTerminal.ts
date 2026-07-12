@@ -235,6 +235,14 @@ export function useTerminal() {
             return;
         }
 
+        if (command === "resume") {
+            setHistory((prev) => [
+                ...prev,
+                { command: trimmed, kind: "resume" },
+            ]);
+            return;
+        }
+
         if (command === "clear") {
             setHistory([]);
             setContactStep(null);

@@ -25,6 +25,7 @@ import {
     ProjectsUsage,
     SkillsUsage,
 } from "./components/terminal-commands/shared/CommandUsage";
+import { Resume } from "./components/terminal-commands/Resume/Resume";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
@@ -99,6 +100,8 @@ function TerminalPortfolio() {
                 return <ContactArgsHint />;
             case "contact-info":
                 return <ContactInfo />;
+            case "resume":
+                return <Resume />;
             case "clear":
                 return null;
             case "empty":

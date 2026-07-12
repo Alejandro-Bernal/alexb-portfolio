@@ -21,6 +21,7 @@ export type CommandKind =
     | "contact-success"
     | "contact-cancelled"
     | "contact-args"
+    | "resume"
     | "clear"
     | "unknown";
 
