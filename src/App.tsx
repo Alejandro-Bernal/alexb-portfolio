@@ -129,7 +129,7 @@ function TerminalPortfolio() {
                 ))}
             </div>
 
-            <div id="center">
+            <div id="center" onClick={() => inputRef.current?.focus()}>
                 <div className="terminal-window">
                     <div className="terminal-header">
                         <div className="terminal-dots">
@@ -181,12 +181,11 @@ function TerminalPortfolio() {
                                     className="terminal-input"
                                     type="text"
                                     value={input}
-                                    onChange={(e) =>
-                                        setInput(e.target.value)
-                                    }
+                                    onChange={(e) => setInput(e.target.value)}
                                     aria-label={inputHint}
                                     autoComplete="off"
                                     spellCheck={false}
+                                    autoFocus
                                 />
                             </div>
                         </form>
