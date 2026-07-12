@@ -25,17 +25,44 @@ export function ContactStart() {
             <p className="contact-tip">
                 Type <span className="cmd">cancel</span> at any time to exit.
             </p>
+
+            <div className="contact-privacy">
+                <p className="contact-privacy-notice">
+                    By submitting this form, you agree to our{" "}
+                    <a
+                        href="/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-privacy-link"
+                    >
+                        Privacy Policy
+                    </a>
+                    . Your name and email will be stored securely so I can
+                    contact you back.
+                </p>
+            </div>
+
             <ContactPrompt prompt={CONTACT_PROMPTS.name} />
         </div>
     );
 }
 
-export function ContactSuccess({ payload }: { payload: ContactPayload }) {
+export function ContactSuccess({
+    payload,
+    delivered,
+    message,
+}: {
+    payload: ContactPayload;
+    delivered?: boolean;
+    message?: string;
+}) {
+    const status = delivered ? "Delivered" : "Failed to deliver";
+    const statusClass = delivered ? "contact-delivered" : "contact-failed";
+
     return (
         <div className="contact-flow">
-            <p className="contact-success">
-                Message captured locally. FastAPI delivery service coming soon.
-            </p>
+            <p className={`contact-status ${statusClass}`}>{status}</p>
+            {message && <p className="contact-message">{message}</p>}
             <div className="contact-summary">
                 <div>
                     From: {payload.name} ({payload.email})
@@ -69,4 +96,3 @@ export function ContactArgsHint() {
         </div>
     );
 }
-

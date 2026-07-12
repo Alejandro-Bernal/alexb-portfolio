@@ -82,8 +82,8 @@ export function About() {
                 <div className="about-contact">
                     <div>
                         <span className="about-label">Email</span>
-                        <a href="mailto:alexbernal32396@gmail.com">
-                            alexbernal32396@gmail.com
+                        <a href="mailto:contact@bernalforge.dev">
+                            contact@bernalforge.dev
                         </a>
                     </div>
                     <div>

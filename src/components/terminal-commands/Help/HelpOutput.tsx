@@ -41,21 +41,23 @@ export function HelpOutput() {
             <p className="help-name">
                 <span className="cmd">moosey OS terminal</span> v1.0.0
             </p>
-            <p className="help-tagline">
-                Type a command and press Enter.
-            </p>
+            <p className="help-tagline">Type a command and press Enter.</p>
 
             <HelpSection title="Commands">
                 <HelpRow command="help" description="show this guide" />
                 <HelpRow command="about" description="my introduction" />
                 <HelpRow command="projects" description="list all projects" />
+                <HelpRow command="skills" description="list skill categories" />
                 <HelpRow
-                    command="skills"
-                    description="list skill categories"
+                    command="clear"
+                    description="clear the terminal screen"
                 />
-                <HelpRow command="clear" description="clear the terminal screen" />
                 <HelpRow
                     command="contact"
+                    description="learn how to get in touch"
+                />
+                <HelpRow
+                    command="contact-now"
                     description="send a message (interactive prompts)"
                     note="type cancel to exit the form"
                 />

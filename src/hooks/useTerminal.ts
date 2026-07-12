@@ -215,16 +215,14 @@ export function useTerminal() {
         }
 
         if (command === "contact") {
-            const args = tokens.slice(1);
+            setHistory((prev) => [
+                ...prev,
+                { command: trimmed, kind: "contact-info" },
+            ]);
+            return;
+        }
 
-            if (args.length > 0) {
-                setHistory((prev) => [
-                    ...prev,
-                    { command: trimmed, kind: "contact-args" },
-                ]);
-                return;
-            }
-
+        if (command === "contact-now") {
             startContactFlow(trimmed);
             return;
         }

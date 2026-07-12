@@ -65,9 +65,7 @@ function TerminalPortfolio() {
             case "contact-start":
                 return <ContactStart />;
             case "contact-prompt":
-                return (
-                    <ContactPrompt prompt={entry.contactPrompt ?? ""} />
-                );
+                return <ContactPrompt prompt={entry.contactPrompt ?? ""} />;
             case "contact-error":
                 return (
                     <ContactPrompt
