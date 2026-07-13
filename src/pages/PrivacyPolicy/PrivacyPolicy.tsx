@@ -28,14 +28,14 @@ export function PrivacyPolicy() {
                             <span></span>
                             <span></span>
                         </div>
-                        <span>alejandro-bernal@portfolio — privacy-policy</span>
+                        <span>visitor@bernalforge — privacy-policy</span>
                     </div>
 
                     <div className="terminal-body privacy-body">
                         <header className="privacy-header">
                             <p className="privacy-path">
                                 <span className="prompt-host">
-                                    bernal-a@portfolio
+                                    visitor@bernalforge
                                 </span>
                                 :~/docs$ cat privacy-policy.html
                             </p>
@@ -52,7 +52,7 @@ export function PrivacyPolicy() {
                         <footer className="privacy-footer">
                             <p>
                                 <span className="prompt-host">
-                                    bernal-a@portfolio
+                                    visitor@bernalforge
                                 </span>
                                 :~/docs$ _
                             </p>

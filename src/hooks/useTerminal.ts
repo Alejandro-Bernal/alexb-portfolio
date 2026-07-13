@@ -34,7 +34,7 @@ export function useTerminal() {
     const [history, setHistory] = useState<TerminalEntry[]>([]);
     const [contactStep, setContactStep] = useState<ContactStep | null>(null);
     const [contactData, setContactData] = useState<Partial<ContactPayload>>({});
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
     const startContactFlow = (command: string) => {
         setContactStep("name");
@@ -92,6 +92,7 @@ export function useTerminal() {
                     command: trimmed,
                     kind: "contact-error",
                     contactPrompt: CONTACT_PROMPTS[contactStep],
+                    contactStep: contactStep,
                     contactError: validation.error,
                 },
             ]);
@@ -115,6 +116,7 @@ export function useTerminal() {
                 command: trimmed,
                 kind: "contact-prompt",
                 contactPrompt: CONTACT_PROMPTS[nextStep],
+                contactStep: nextStep,
             },
         ]);
     };
@@ -235,6 +237,14 @@ export function useTerminal() {
             return;
         }
 
+        if (command === "resume") {
+            setHistory((prev) => [
+                ...prev,
+                { command: trimmed, kind: "resume" },
+            ]);
+            return;
+        }
+
         if (command === "clear") {
             setHistory([]);
             setContactStep(null);
@@ -252,9 +262,23 @@ export function useTerminal() {
         requestAnimationFrame(() => inputRef.current?.focus());
     };
 
-    const inputHint = contactStep
-        ? CONTACT_INPUT_HINTS[contactStep]
-        : DEFAULT_INPUT_HINT;
+    // Inside useTerminal(), replace the current inputHint definition with this:
+    let inputHint = DEFAULT_INPUT_HINT;
+
+    if (contactStep) {
+        if (contactStep === "name") {
+            const chars = input.length;
+            inputHint = `Enter your name (${chars}/100)`;
+        } else if (contactStep === "subject") {
+            const chars = input.length;
+            inputHint = `Subject e.g., Job Opportunity... (${chars}/150)`;
+        } else if (contactStep === "message") {
+            const chars = input.length;
+            inputHint = `Message e.g., I'd love to chat... (${chars}/2000)`;
+        } else {
+            inputHint = CONTACT_INPUT_HINTS[contactStep];
+        }
+    }
 
     return {
         input,
@@ -263,5 +287,6 @@ export function useTerminal() {
         onSubmit,
         inputRef,
         inputHint,
+        contactStep,
     };
 }

@@ -1,17 +1,24 @@
 import "./Contact.css";
-import { type ContactPayload } from "../../../types/global.types";
-import { CONTACT_PROMPTS } from "./contactFlow";
+import {
+    type ContactPayload,
+    type ContactStep,
+} from "../../../types/global.types";
+import { CONTACT_PROMPTS, CONTACT_NOTES } from "./contactFlow";
 
 type ContactPromptProps = {
     prompt: string;
     error?: string;
+    step?: ContactStep;
 };
 
-export function ContactPrompt({ prompt, error }: ContactPromptProps) {
+export function ContactPrompt({ prompt, error, step }: ContactPromptProps) {
+    const note = step ? CONTACT_NOTES[step] : null;
+
     return (
         <div className="contact-flow">
             {error ? <p className="contact-error">{error}</p> : null}
             <p className="contact-prompt">{prompt}</p>
+            {note ? <p className="contact-note">{note}</p> : null}
         </div>
     );
 }
@@ -42,7 +49,7 @@ export function ContactStart() {
                 </p>
             </div>
 
-            <ContactPrompt prompt={CONTACT_PROMPTS.name} />
+            <ContactPrompt prompt={CONTACT_PROMPTS.name} step="name" />
         </div>
     );
 }

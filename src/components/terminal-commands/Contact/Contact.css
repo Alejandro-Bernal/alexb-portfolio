@@ -20,6 +20,16 @@
     color: var(--text);
 }
 
+.contact-note {
+    margin: 6px 0 0 0;
+    padding: 6px 8px;
+    color: var(--text-bright);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--accent);
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
 .contact-error {
     margin: 0;
     color: var(--text-bright);

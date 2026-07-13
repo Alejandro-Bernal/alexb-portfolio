@@ -21,6 +21,7 @@ export type CommandKind =
     | "contact-success"
     | "contact-cancelled"
     | "contact-args"
+    | "resume"
     | "clear"
     | "unknown";
 
@@ -37,9 +38,17 @@ export type TerminalEntry = {
     kind: CommandKind;
     contactPayload?: ContactPayload;
     contactPrompt?: string;
+    contactStep?: ContactStep;
     contactError?: string;
     contactDelivered?: boolean;
     contactMessage?: string;
     skillsCategory?: string;
     projectId?: string;
 };
+
+export type ContactStep =
+    | "name"
+    | "email"
+    | "emailConfirm"
+    | "subject"
+    | "message";
