@@ -1,0 +1,23 @@
+.resume-output {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.resume-output p {
+    margin: 0;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.resume-link {
+    color: var(--text-bright);
+    text-decoration: none;
+}
+
+.resume-link:hover {
+    text-decoration: underline;
+}

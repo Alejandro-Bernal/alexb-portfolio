@@ -53,6 +53,10 @@ export function HelpOutput() {
                     description="clear the terminal screen"
                 />
                 <HelpRow
+                    command="resume"
+                    description="view / download my resume"
+                />
+                <HelpRow
                     command="contact"
                     description="learn how to get in touch"
                 />
