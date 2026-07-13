@@ -81,7 +81,6 @@ export function validateContactStep(
                 };
             }
             return { ok: true };
-
         case "emailConfirm":
             if (!trimmed) {
                 return { ok: false, error: "Email cannot be empty." };
@@ -93,7 +92,6 @@ export function validateContactStep(
                 };
             }
             return { ok: true };
-
         case "subject":
             if (!trimmed) {
                 return { ok: false, error: "Subject cannot be empty." };
