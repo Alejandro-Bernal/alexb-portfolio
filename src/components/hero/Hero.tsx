@@ -73,9 +73,7 @@ function Hero() {
                     <div className="fastfetch-line">
                         <span className="label">Host</span>
                         <span className="separator">:</span>
-                        <span className="value">
-                            alejandro-bernal@portfolio
-                        </span>
+                        <span className="value">visitor@bernalforge</span>
                     </div>
 
                     <div className="fastfetch-line">
@@ -100,9 +98,10 @@ function Hero() {
                             <span>projects</span>
                             <span>skills</span>
                             <span>contact</span>
+                            <span>contact-now</span>
                             <span>resume</span>
-                            <span>clear</span>
                             <span>moose</span>
+                            <span>clear</span>
                         </div>
 
                         <div className="fastfetch-welcome">

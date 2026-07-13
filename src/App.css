@@ -58,11 +58,15 @@
     display: grid;
     flex: 1 1 0;
     min-width: 0;
+    /* Two columns: input/hint takes up available space (1fr), counter takes up its content width (auto) */
+    grid-template-columns: 1fr auto;
+    gap: 8px; /* Space between input and counter */
+    align-items: center;
 }
-
 .terminal-input-hint,
 .terminal-input {
-    grid-area: 1 / 1;
+    grid-column: 1; /* Both sit in the first column to overlap */
+    grid-row: 1;
 }
 
 .terminal-input-hint {
@@ -92,6 +96,13 @@
     caret-color: var(--cursor);
 }
 
+.terminal-char-counter {
+    grid-column: 2; /* Sit in the second column on the right */
+    grid-row: 1;
+    color: var(--text-dim);
+    font-family: var(--mono);
+}
+
 .terminal-input:focus {
     outline: none;
     box-shadow: none;
@@ -108,6 +119,27 @@
     color: var(--text);
     overflow-wrap: anywhere;
     word-break: break-word;
+}
+
+.terminal-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--text);
+    caret-color: var(--cursor);
+    resize: none; /* Disable manual resizing by the user */
+    overflow-y: hidden; /* Hide the scrollbar */
+}
+
+.terminal-textarea:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 @media (max-width: 768px) {

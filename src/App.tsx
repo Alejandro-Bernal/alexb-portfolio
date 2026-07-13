@@ -34,14 +34,32 @@ import { THEMES, type TerminalEntry } from "./types/global.types";
 
 function TerminalPortfolio() {
     const { theme, changeTheme } = useTheme();
-    const { input, setInput, history, onSubmit, inputRef, inputHint } =
-        useTerminal();
+    const {
+        input,
+        setInput,
+        history,
+        onSubmit,
+        inputRef,
+        inputHint,
+        contactStep,
+    } = useTerminal();
 
     const bottomRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLFormElement>(null); // Add a ref for the form
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [history]);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault(); // Prevent a new line from being added
+            // Create and dispatch a submit event on the form
+            if (formRef.current) {
+                formRef.current.requestSubmit();
+            }
+        }
+    };
 
     const renderCommandOutput = (entry: TerminalEntry) => {
         switch (entry.kind) {
@@ -72,12 +90,18 @@ function TerminalPortfolio() {
             case "contact-start":
                 return <ContactStart />;
             case "contact-prompt":
-                return <ContactPrompt prompt={entry.contactPrompt ?? ""} />;
+                return (
+                    <ContactPrompt
+                        prompt={entry.contactPrompt ?? ""}
+                        step={entry.contactStep}
+                    />
+                );
             case "contact-error":
                 return (
                     <ContactPrompt
                         prompt={entry.contactPrompt ?? ""}
                         error={entry.contactError}
+                        step={entry.contactStep}
                     />
                 );
             case "contact-success":
@@ -141,7 +165,7 @@ function TerminalPortfolio() {
                             <span></span>
                             <span></span>
                         </div>
-                        <span>alejandro-bernal@portfolio</span>
+                        <span>visitor@bernalforge</span>
                     </div>
                     <div className="terminal-body">
                         <Hero />
@@ -152,7 +176,7 @@ function TerminalPortfolio() {
                                     <div>
                                         <span className="prompt-prefix">
                                             <span className="prompt-host">
-                                                bernal-a@portfolio
+                                                visitor@bernalforge
                                             </span>
                                             :~${" "}
                                         </span>
@@ -164,33 +188,72 @@ function TerminalPortfolio() {
                             <div ref={bottomRef} />
                         </div>
 
-                        <form className="command-line" onSubmit={onSubmit}>
+                        <form
+                            className="command-line"
+                            onSubmit={onSubmit}
+                            ref={formRef}
+                        >
                             <span className="prompt-prefix">
                                 <span className="prompt-host">
-                                    bernal-a@portfolio
+                                    visitor@bernalforge
                                 </span>
                                 :~${" "}
                             </span>
                             <div className="terminal-input-field">
-                                {!input ? (
-                                    <span
-                                        className="terminal-input-hint"
-                                        aria-hidden="true"
-                                    >
-                                        {inputHint}
-                                    </span>
-                                ) : null}
-                                <input
-                                    ref={inputRef}
-                                    className="terminal-input"
-                                    type="text"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    aria-label={inputHint}
-                                    autoComplete="off"
-                                    spellCheck={false}
-                                    autoFocus
-                                />
+                                {contactStep === "message" ? (
+                                    <textarea
+                                        ref={
+                                            inputRef as unknown as React.RefObject<HTMLTextAreaElement>
+                                        }
+                                        className="terminal-textarea"
+                                        value={input}
+                                        onChange={(e) =>
+                                            setInput(e.target.value)
+                                        }
+                                        onKeyDown={handleKeyDown}
+                                        aria-label="Terminal message input"
+                                        autoComplete="off"
+                                        spellCheck={false}
+                                        autoFocus
+                                        rows={1} // Start as a single line
+                                        onInput={(e) => {
+                                            const target =
+                                                e.target as HTMLTextAreaElement;
+                                            target.style.height = "auto";
+                                            target.style.height = `${target.scrollHeight}px`;
+                                        }}
+                                    />
+                                ) : (
+                                    <input
+                                        ref={
+                                            inputRef as unknown as React.RefObject<HTMLInputElement>
+                                        }
+                                        className="terminal-input"
+                                        type="text"
+                                        value={input}
+                                        onChange={(e) =>
+                                            setInput(e.target.value)
+                                        }
+                                        aria-label="Terminal input"
+                                        autoComplete="off"
+                                        spellCheck={false}
+                                        autoFocus
+                                    />
+                                )}
+                                {input &&
+                                    (() => {
+                                        // Extract the number following "Max " or "/"
+                                        const match =
+                                            inputHint.match(/(?:Max |\/)(\d+)/);
+                                        if (!match) return null;
+
+                                        const limit = match[1];
+                                        return (
+                                            <span className="terminal-char-counter">
+                                                ({input.length}/{limit})
+                                            </span>
+                                        );
+                                    })()}
                             </div>
                         </form>
                     </div>

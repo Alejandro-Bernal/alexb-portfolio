@@ -38,9 +38,17 @@ export type TerminalEntry = {
     kind: CommandKind;
     contactPayload?: ContactPayload;
     contactPrompt?: string;
+    contactStep?: ContactStep;
     contactError?: string;
     contactDelivered?: boolean;
     contactMessage?: string;
     skillsCategory?: string;
     projectId?: string;
 };
+
+export type ContactStep =
+    | "name"
+    | "email"
+    | "emailConfirm"
+    | "subject"
+    | "message";
