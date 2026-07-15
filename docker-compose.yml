@@ -1,0 +1,14 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Baked into the JS bundle at build time.
+        # Point at the backend host port (browser calls this URL).
+        VITE_BACKEND_API_URL: ${VITE_BACKEND_API_URL:-http://localhost:8000/contact}
+        VITE_API_KEY: ${VITE_API_KEY:-}
+    container_name: linux-style-portfolio
+    ports:
+      - "${PORTFOLIO_PORT:-3000}:3000"
+    restart: unless-stopped
