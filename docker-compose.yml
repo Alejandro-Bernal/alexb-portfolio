@@ -1,0 +1,17 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # .env is mounted only during `npm run build` (BuildKit secret).
+      # It is not copied into the image layers or visible via `docker inspect`.
+      secrets:
+        - env
+    container_name: linux-style-portfolio
+    ports:
+      - "${PORTFOLIO_PORT:-3000}:3000"
+    restart: unless-stopped
+
+secrets:
+  env:
+    file: .env
