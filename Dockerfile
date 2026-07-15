@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # ---- Build stage ----
 FROM node:22-alpine AS build
 
@@ -8,13 +10,11 @@ RUN npm ci
 
 COPY . .
 
-# Vite inlines these at build time (browser-facing)
-ARG VITE_BACKEND_API_URL=http://localhost:8000/contact
-ARG VITE_API_KEY=
-ENV VITE_BACKEND_API_URL=$VITE_BACKEND_API_URL \
-    VITE_API_KEY=$VITE_API_KEY
-
-RUN npm run build
+# Vite reads VITE_* from .env at build time and inlines them into the JS bundle.
+# Pass .env as a BuildKit secret (not ARG/ENV) so keys are not stored in image metadata.
+# Compose: secrets: [env]  |  CLI: docker build --secret id=env,src=.env .
+RUN --mount=type=secret,id=env,target=/app/.env,required=false \
+    npm run build
 
 # ---- Runtime stage ----
 FROM node:22-alpine AS runtime
