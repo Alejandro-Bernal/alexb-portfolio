@@ -1,6 +1,6 @@
 import "./Projects.css";
 import "../Help/HelpOutput.css";
-import { getProject, PROJECTS } from "./projects.data";
+import { getProject, PROJECTS, type Project } from "./projects.data";
 
 function ProjectRow({
     id,
@@ -59,18 +59,8 @@ export function ProjectsList() {
     );
 }
 
-export function ProjectDetail({ projectId }: { projectId: string }) {
-    const project = getProject(projectId);
-
-    if (!project) {
-        return null;
-    }
-
+export function ProjectReadme({ project }: { project: Project }) {
     return (
-        <div
-            className="projects-output"
-            aria-label={`${project.name} project details`}
-        >
             <div className="project-readme">
                 <h2 className="project-title">{project.name}</h2>
                 <p className="project-tagline">
@@ -182,6 +172,22 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                     </>
                 ) : null}
             </div>
+    );
+}
+
+export function ProjectDetail({ projectId }: { projectId: string }) {
+    const project = getProject(projectId);
+
+    if (!project) {
+        return null;
+    }
+
+    return (
+        <div
+            className="projects-output"
+            aria-label={`${project.name} project details`}
+        >
+            <ProjectReadme project={project} />
         </div>
     );
 }

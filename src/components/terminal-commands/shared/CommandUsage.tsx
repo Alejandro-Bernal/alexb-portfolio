@@ -1,7 +1,6 @@
 import "./CommandUsage.css";
 import { type ReactNode } from "react";
-import { PROJECT_IDS } from "../Projects/projects.data";
-import { SKILL_CATEGORY_IDS } from "../Skills/skills.data";
+
 
 type UsageEntryProps = {
     command: string;
@@ -32,22 +31,7 @@ export function SkillsUsage({ error }: CommandUsageProps) {
             <div className="usage-section">
                 <UsageEntry
                     command="skills"
-                    description="list skill categories"
-                />
-                <UsageEntry
-                    command="skills <category>"
-                    description="view proficiency for a category"
-                    details={
-                        <>
-                            <p className="usage-detail">
-                                categories: {SKILL_CATEGORY_IDS.join(", ")}
-                            </p>
-                            <p className="usage-detail">
-                                example:{" "}
-                                <span className="cmd">skills fullstack</span>
-                            </p>
-                        </>
-                    }
+                    description="open SPECIAL.exe"
                 />
             </div>
         </div>
@@ -61,22 +45,7 @@ export function ProjectsUsage({ error }: CommandUsageProps) {
             <div className="usage-section">
                 <UsageEntry
                     command="projects"
-                    description="list all projects"
-                />
-                <UsageEntry
-                    command="projects <id>"
-                    description="open a project by id"
-                    details={
-                        <>
-                            <p className="usage-detail">
-                                projects: {PROJECT_IDS.join(", ")}
-                            </p>
-                            <p className="usage-detail">
-                                example:{" "}
-                                <span className="cmd">projects pathzero</span>
-                            </p>
-                        </>
-                    }
+                    description="open PROJECTS.exe"
                 />
             </div>
         </div>

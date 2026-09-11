@@ -2,6 +2,7 @@
     text-align: left;
     margin-bottom: 16px;
     max-width: 100%;
+    min-width: 0;
     overflow: hidden;
 }
 
@@ -12,26 +13,30 @@
 }
 
 .figlet-wrap {
+    container-type: inline-size;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     overflow: hidden;
     margin: 0 0 8px 0;
 }
 
-/* === Figlet / ASCII Art text === */
+/* === Display name (Overseer Bold) === */
 .figlet {
-    font-family: var(--mono);
-    font-size: 11px;
-    line-height: 1;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-style: normal;
+    font-synthesis: none;
+    font-size: 10cqi;
+    line-height: 0.9;
     margin: 0;
+    padding-bottom: 0.08em;
     color: var(--accent);
-    white-space: pre;
+    white-space: nowrap;
     user-select: none;
-    letter-spacing: normal;
-    display: inline-block;
-    transform-origin: left top;
-    width: max-content;
-    max-width: none;
+    letter-spacing: 0.04em;
+    min-width: 0;
+    text-shadow: var(--glow);
 }
 
 /* Roles / normal text below the figlet */
@@ -44,11 +49,6 @@
 }
 
 .role {
-}
-
-/* Figlet styling: keep it crisp and terminal-like */
-.figlet {
-    text-shadow: none;
 }
 
 /* === Fastfetch mock - moose as the left "logo" + system info === */
@@ -121,13 +121,24 @@
     gap: 6px;
 }
 
-.command-list span {
+.command-list span,
+.command-chip {
     color: var(--accent);
     background: var(--bg-elevated);
     padding: 1px 7px;
     border-radius: 2px;
     font-size: 12px;
     border: 1px solid var(--border);
+    font-family: var(--mono);
+    cursor: pointer;
+    line-height: inherit;
+}
+
+.command-chip:hover,
+.command-chip:focus-visible {
+    color: var(--text-bright);
+    border-color: var(--accent);
+    text-shadow: var(--glow);
 }
 
 .fastfetch-welcome {
@@ -219,10 +230,6 @@
         gap: 4px;
         font-size: 16px;
     }
-
-    .figlet {
-        font-size: 10px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -231,7 +238,7 @@
     }
 
     .figlet {
-        font-size: 8px;
+        font-size: clamp(1.5rem, 8.6vw, 2.2rem);
     }
 
     .fastfetch-info {
@@ -242,7 +249,8 @@
         gap: 4px;
     }
 
-    .command-list span {
+    .command-list span,
+    .command-chip {
         font-size: 11px;
     }
 }

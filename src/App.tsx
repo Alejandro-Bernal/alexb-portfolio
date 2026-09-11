@@ -1,19 +1,13 @@
 import "./App.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Hero from "./components/hero/Hero";
 import { HelpOutput } from "./components/terminal-commands/Help/HelpOutput";
 import { About } from "./components/terminal-commands/About/About";
-import Neofetch from "./components/terminal-commands/Neofetch/Neofetch";
+import { MooseRunner } from "./components/terminal-commands/MooseRunner/MooseRunner";
+import { SpecialScreen } from "./components/terminal-commands/Skills/SpecialScreen";
+import { ProjectsScreen } from "./components/terminal-commands/Projects/ProjectsScreen";
 import { ContactInfo } from "./components/terminal-commands/Contact/ContactInfo";
-import {
-    ProjectDetail,
-    ProjectsList,
-} from "./components/terminal-commands/Projects/Projects";
-import {
-    SkillsCategory,
-    SkillsList,
-} from "./components/terminal-commands/Skills/Skills";
 import {
     ContactArgsHint,
     ContactCancelled,
@@ -21,19 +15,20 @@ import {
     ContactStart,
     ContactSuccess,
 } from "./components/terminal-commands/Contact/Contact";
-import {
-    ProjectsUsage,
-    SkillsUsage,
-} from "./components/terminal-commands/shared/CommandUsage";
 import { Resume } from "./components/terminal-commands/Resume/Resume";
 import { Footer } from "./components/Footer/Footer";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy/PrivacyPolicy";
-import { useTheme } from "./hooks/useTheme";
+import { BootScreen } from "./components/boot/BootScreen";
 import { useTerminal } from "./hooks/useTerminal";
-import { THEMES, type TerminalEntry } from "./types/global.types";
+import { type TerminalEntry } from "./types/global.types";
 
 function TerminalPortfolio() {
-    const { theme, changeTheme } = useTheme();
+    const [booted, setBooted] = useState(false);
+    const [showBoot, setShowBoot] = useState(true);
+    const [introComplete, setIntroComplete] = useState(false);
+    const [overlay, setOverlay] = useState<
+        "moose" | "special" | "projects" | null
+    >(null);
     const {
         input,
         setInput,
@@ -42,13 +37,42 @@ function TerminalPortfolio() {
         inputRef,
         inputHint,
         contactStep,
+        typeAndRun,
     } = useTerminal();
+    const closeOverlay = () => {
+        setOverlay(null);
+        window.setTimeout(() => inputRef.current?.focus(), 50);
+    };
 
     const bottomRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null); // Add a ref for the form
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [history]);
+
+    useEffect(() => {
+        if (introComplete && !overlay) {
+            inputRef.current?.focus();
+        }
+    }, [introComplete, overlay]);
+
+    useEffect(() => {
+        const last = history.at(-1)?.kind;
+        if (last === "moose") {
+            setOverlay("moose");
+        }
+        if (last === "skills") {
+            setOverlay("special");
+        }
+        if (last === "projects") {
+            setOverlay("projects");
+        }
+        if (last === "moose" || last === "skills" || last === "projects") {
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+        }
     }, [history]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -66,26 +90,25 @@ function TerminalPortfolio() {
             case "help":
                 return <HelpOutput />;
             case "about":
+            case "whoami":
                 return <About />;
             case "moose":
-                return <Neofetch />;
+                return (
+                    <div className="neofetch-note">easter egg: moose.exe</div>
+                );
+            case "projects":
             case "projects-list":
-                return <ProjectsList />;
             case "projects-detail":
-                return <ProjectDetail projectId={entry.projectId ?? ""} />;
             case "projects-usage":
                 return (
-                    <ProjectsUsage error="Unknown or incomplete projects command." />
+                    <div className="neofetch-note">opened PROJECTS.exe</div>
                 );
+            case "skills":
             case "skills-list":
-                return <SkillsList />;
             case "skills-category":
-                return (
-                    <SkillsCategory categoryId={entry.skillsCategory ?? ""} />
-                );
             case "skills-usage":
                 return (
-                    <SkillsUsage error="Unknown or incomplete skills command." />
+                    <div className="neofetch-note">opened SPECIAL.exe</div>
                 );
             case "contact-start":
                 return <ContactStart />;
@@ -144,31 +167,42 @@ function TerminalPortfolio() {
     };
 
     return (
-        <>
-            <div className="theme-switcher">
-                {THEMES.map((t) => (
-                    <button
-                        key={t}
-                        className={`theme-btn ${theme === t ? "active" : ""}`}
-                        onClick={() => changeTheme(t)}
-                    >
-                        {t}
-                    </button>
-                ))}
-            </div>
-
-            <div id="center" onClick={() => inputRef.current?.focus()}>
-                <div className="terminal-window">
-                    <div className="terminal-header">
-                        <div className="terminal-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <span>visitor@bernalforge</span>
-                    </div>
-                    <div className="terminal-body">
-                        <Hero />
+        <div
+            id="center"
+            onClick={() => {
+                if (introComplete && !overlay) {
+                    inputRef.current?.focus();
+                }
+            }}
+        >
+            <div className="terminal-window">
+                {showBoot && (
+                    <BootScreen
+                        onComplete={() => {
+                            setBooted(true);
+                            window.setTimeout(() => {
+                                setShowBoot(false);
+                            }, 900);
+                        }}
+                    />
+                )}
+                {overlay === "moose" ? (
+                    <MooseRunner onExit={closeOverlay} />
+                ) : overlay === "special" ? (
+                    <SpecialScreen onExit={closeOverlay} />
+                ) : overlay === "projects" ? (
+                    <ProjectsScreen onExit={closeOverlay} />
+                ) : (
+                <div
+                    className={`terminal-body${booted ? "" : " is-booting"}`}
+                    aria-hidden={!booted}
+                >
+                        <Hero
+                            startIntro={booted && !showBoot}
+                            instant={introComplete}
+                            onIntroComplete={() => setIntroComplete(true)}
+                            onRunCommand={typeAndRun}
+                        />
 
                         <div className="terminal-output">
                             {history.map((entry, idx) => (
@@ -189,9 +223,10 @@ function TerminalPortfolio() {
                         </div>
 
                         <form
-                            className="command-line"
+                            className={`command-line${introComplete ? "" : " is-waiting"}`}
                             onSubmit={onSubmit}
                             ref={formRef}
+                            aria-hidden={!introComplete}
                         >
                             <span className="prompt-prefix">
                                 <span className="prompt-host">
@@ -199,6 +234,9 @@ function TerminalPortfolio() {
                                 </span>
                                 :~${" "}
                             </span>
+                            {introComplete && !input && (
+                                <span className="cursor" aria-hidden="true" />
+                            )}
                             <div className="terminal-input-field">
                                 {contactStep === "message" ? (
                                     <textarea
@@ -214,7 +252,7 @@ function TerminalPortfolio() {
                                         aria-label="Terminal message input"
                                         autoComplete="off"
                                         spellCheck={false}
-                                        autoFocus
+                                        autoFocus={introComplete}
                                         rows={1} // Start as a single line
                                         onInput={(e) => {
                                             const target =
@@ -237,7 +275,7 @@ function TerminalPortfolio() {
                                         aria-label="Terminal input"
                                         autoComplete="off"
                                         spellCheck={false}
-                                        autoFocus
+                                        autoFocus={introComplete}
                                     />
                                 )}
                                 {input &&
@@ -257,10 +295,10 @@ function TerminalPortfolio() {
                             </div>
                         </form>
                     </div>
-                </div>
+                )}
+                {!overlay && <Footer />}
             </div>
-            <Footer />
-        </>
+        </div>
     );
 }
 

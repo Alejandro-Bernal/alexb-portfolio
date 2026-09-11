@@ -7,8 +7,6 @@ import {
     validateContactStep,
     type ContactStep,
 } from "../components/terminal-commands/Contact/contactFlow";
-import { getProject } from "../components/terminal-commands/Projects/projects.data";
-import { getSkillCategory } from "../components/terminal-commands/Skills/skills.data";
 import { submitContact } from "../services/ContactService";
 import { type ContactPayload, type TerminalEntry } from "../types/global.types";
 
@@ -35,6 +33,7 @@ export function useTerminal() {
     const [contactStep, setContactStep] = useState<ContactStep | null>(null);
     const [contactData, setContactData] = useState<Partial<ContactPayload>>({});
     const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+    const typingTimers = useRef<number[]>([]);
 
     const startContactFlow = (command: string) => {
         setContactStep("name");
@@ -142,10 +141,10 @@ export function useTerminal() {
             return;
         }
 
-        if (command === "about") {
+        if (command === "whoami" || command === "about") {
             setHistory((prev) => [
                 ...prev,
-                { command: trimmed, kind: "about" },
+                { command: trimmed, kind: "whoami" },
             ]);
             return;
         }
@@ -159,67 +158,17 @@ export function useTerminal() {
         }
 
         if (command === "skills") {
-            const args = tokens.slice(1);
-            const subcommand = (args[0] ?? "").toLowerCase();
-
-            if (subcommand === "" || subcommand === "list") {
-                setHistory((prev) => [
-                    ...prev,
-                    { command: trimmed, kind: "skills-list" },
-                ]);
-                return;
-            }
-
-            const category = getSkillCategory(subcommand);
-
-            if (category) {
-                setHistory((prev) => [
-                    ...prev,
-                    {
-                        command: trimmed,
-                        kind: "skills-category",
-                        skillsCategory: category.id,
-                    },
-                ]);
-                return;
-            }
-
             setHistory((prev) => [
                 ...prev,
-                { command: trimmed, kind: "skills-usage" },
+                { command: trimmed, kind: "skills" },
             ]);
             return;
         }
 
         if (command === "projects") {
-            const args = tokens.slice(1);
-            const subcommand = (args[0] ?? "").toLowerCase();
-
-            if (subcommand === "" || subcommand === "list") {
-                setHistory((prev) => [
-                    ...prev,
-                    { command: trimmed, kind: "projects-list" },
-                ]);
-                return;
-            }
-
-            const project = getProject(subcommand);
-
-            if (project) {
-                setHistory((prev) => [
-                    ...prev,
-                    {
-                        command: trimmed,
-                        kind: "projects-detail",
-                        projectId: project.id,
-                    },
-                ]);
-                return;
-            }
-
             setHistory((prev) => [
                 ...prev,
-                { command: trimmed, kind: "projects-usage" },
+                { command: trimmed, kind: "projects" },
             ]);
             return;
         }
@@ -257,9 +206,59 @@ export function useTerminal() {
 
     const onSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        runCommand(input);
+        const submitted = input;
+        runCommand(submitted);
         setInput("");
-        requestAnimationFrame(() => inputRef.current?.focus());
+        const launched = submitted.trim().toLowerCase();
+        if (
+            launched !== "moose" &&
+            launched !== "skills" &&
+            launched !== "projects"
+        ) {
+            requestAnimationFrame(() => inputRef.current?.focus());
+        }
+    };
+
+    const typeAndRun = (command: string) => {
+        if (contactStep) {
+            return;
+        }
+
+        for (const id of typingTimers.current) {
+            window.clearTimeout(id);
+        }
+        typingTimers.current = [];
+
+        const text = command.trim();
+        setInput("");
+
+        const schedule = (fn: () => void, ms: number) => {
+            const id = window.setTimeout(fn, ms);
+            typingTimers.current.push(id);
+        };
+
+        let i = 0;
+        const step = () => {
+            i += 1;
+            if (i <= text.length) {
+                setInput(text.slice(0, i));
+                schedule(step, 38);
+                return;
+            }
+            schedule(() => {
+                runCommand(text);
+                setInput("");
+                if (
+                    text !== "moose" &&
+                    text !== "skills" &&
+                    text !== "projects"
+                ) {
+                    requestAnimationFrame(() => inputRef.current?.focus());
+                }
+            }, 140);
+        };
+
+        step();
     };
 
     // Inside useTerminal(), replace the current inputHint definition with this:
@@ -288,5 +287,6 @@ export function useTerminal() {
         inputRef,
         inputHint,
         contactStep,
+        typeAndRun,
     };
 }

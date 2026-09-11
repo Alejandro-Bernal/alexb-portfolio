@@ -1,36 +1,11 @@
 #center {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-}
-
-/* Theme switcher that looks like part of the terminal */
-.theme-switcher {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 12px;
-    font-size: 12px;
-}
-
-.theme-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 2px 10px;
-    font-family: var(--mono);
-    cursor: pointer;
-    transition: all 0.1s ease;
-    touch-action: manipulation;
-}
-.theme-btn:hover {
-    color: var(--text);
-    border-color: var(--text-dim);
-}
-.theme-btn.active {
-    color: var(--text-bright);
-    border-color: var(--accent);
-    background: var(--bg-elevated);
+    flex: 1 1 auto;
+    gap: 0;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
 }
 
 /* === Terminal command input === */
@@ -41,6 +16,16 @@
     gap: 0;
     margin-top: 12px;
     row-gap: 4px;
+}
+
+.command-line.is-waiting {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.command-line.is-waiting .terminal-input,
+.command-line.is-waiting .terminal-textarea {
+    caret-color: transparent;
 }
 
 .prompt-prefix {
@@ -143,11 +128,6 @@
 }
 
 @media (max-width: 768px) {
-    .theme-btn {
-        min-height: 40px;
-        padding: 6px 12px;
-    }
-
     .command-line {
         align-items: flex-start;
     }
@@ -160,11 +140,5 @@
 @media (max-width: 480px) {
     .prompt-prefix {
         white-space: normal;
-    }
-
-    .theme-btn {
-        flex: 1 1 calc(33.333% - 8px);
-        min-width: 0;
-        text-align: center;
     }
 }
