@@ -1,6 +1,6 @@
 .cursor {
     animation: blink 0.7s infinite;
-    margin-left: 2px;
+    margin-left: 1px;
 }
 
 @keyframes blink {

@@ -74,7 +74,7 @@ export function Neofetch() {
     return (
         <div className="neofetch-output">
             <p className="neofetch-note">
-                Mini Moose has entered the terminal...
+                Mini Moose found a wasteland. Jump or become history.
             </p>
             <pre className="ascii-moose" aria-hidden="true">
                 {lines.slice(0, visible).join("\n")}

@@ -1,11 +1,9 @@
 :root {
     --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-    --mono:
-        ui-monospace, "JetBrains Mono", "Cascadia Code", "Fira Code",
-        "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --mono: var(--font-mono);
 
     font-family: var(--mono);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
     letter-spacing: 0.3px;
 
@@ -18,27 +16,80 @@ html {
     color-scheme: dark; /* we're terminal, mostly dark */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    scrollbar-width: auto;
+    scrollbar-color: var(--accent) #000;
+    -webkit-tap-highlight-color: transparent;
+}
+
+* {
+    scrollbar-width: auto;
+    scrollbar-color: var(--accent) #000;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: #000;
+}
+
+*::-webkit-scrollbar-track {
+    background: #000;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 0;
+    box-shadow: var(--glow);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--text-bright);
+}
+
+*::-webkit-scrollbar-corner {
+    background: #000;
+}
+
+*::-webkit-scrollbar-button {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border: 0;
+    box-shadow: none;
+}
+
+*::-webkit-scrollbar-button:vertical:start:increment,
+*::-webkit-scrollbar-button:vertical:end:decrement,
+*::-webkit-scrollbar-button:horizontal:start:increment,
+*::-webkit-scrollbar-button:horizontal:end:decrement {
+    display: none;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
     margin: 0;
     background: #000; /* outer bezel */
-    overflow-x: clip;
 }
 
 /* === Theme Variables === */
 :root[data-theme="green"] {
-    --bg: #0a0c0a;
-    --bg-elevated: #111411;
-    --bg-header: #0f120f;
-    --text: #00ff9f;
-    --text-dim: #00cc7a;
-    --text-bright: #66ffbb;
-    --accent: #00ff9f;
-    --border: #003322;
-    --border-strong: #004d33;
-    --cursor: #00ff9f;
-    --glow: 0 0 6px rgba(0, 255, 159, 0.5);
+    --bg: #010803;
+    --bg-elevated: #052010;
+    --bg-header: #021108;
+    --text: #1bff80;
+    --text-dim: #12b85c;
+    --text-bright: #9dffc4;
+    --accent: #1bff80;
+    --border: #0a4a28;
+    --border-strong: #127a44;
+    --cursor: #1bff80;
+    --glow: 0 0 8px rgba(27, 255, 128, 0.45);
 }
 
 :root[data-theme="amber"] {
@@ -71,97 +122,188 @@ body {
 
 /* === Global Terminal Styling === */
 #root {
-    max-width: 980px;
-    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    margin: 0;
+    height: 100dvh;
     min-height: 100dvh;
-    padding: max(12px, env(safe-area-inset-top))
-        max(12px, env(safe-area-inset-right))
-        max(12px, env(safe-area-inset-bottom))
-        max(12px, env(safe-area-inset-left));
+    max-height: 100dvh;
+    overflow: hidden; /* keep CRT viewport; scroll inside panes */
+    padding: max(10px, env(safe-area-inset-top))
+        max(10px, env(safe-area-inset-right))
+        max(10px, env(safe-area-inset-bottom))
+        max(10px, env(safe-area-inset-left));
     box-sizing: border-box;
     width: 100%;
+    background: #000;
 }
 
 .terminal-window {
-    background: var(--bg);
-    border: 1px solid var(--border-strong);
-    box-shadow: 0 0 0 1px var(--border);
-}
-
-.terminal-header {
-    background: var(--bg-header);
-    border-bottom: 1px solid var(--border);
-    padding: 6px 12px;
-    font-size: 12px;
+    position: relative;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
-    min-width: 0;
-}
-
-.terminal-header > span:last-child {
+    flex-direction: column;
+    flex: 1 1 auto;
+    background:
+        radial-gradient(
+            ellipse 70% 55% at 50% 40%,
+            color-mix(in srgb, var(--accent) 6%, transparent),
+            transparent 55%
+        ),
+        var(--bg);
+    border: none;
+    border-radius: 3% / 4.5%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     min-width: 0;
+    min-height: 0;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 70px 16px rgba(0, 0, 0, 0.22);
 }
 
-.terminal-dots {
-    display: flex;
-    gap: 6px;
+.terminal-window::before,
+.terminal-window::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
 }
-.terminal-dots span {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--border-strong);
+
+.terminal-window::before {
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--accent) 7%, transparent) 0,
+        color-mix(in srgb, var(--accent) 7%, transparent) 2px,
+        transparent 2px,
+        transparent 6px
+    );
 }
-.terminal-dots span:nth-child(1) {
-    background: #ff5f56;
+
+.terminal-window::after {
+    left: 0;
+    right: 0;
+    height: 14%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        color-mix(in srgb, var(--accent) 8%, transparent) 40%,
+        color-mix(in srgb, var(--accent) 22%, transparent) 50%,
+        color-mix(in srgb, var(--accent) 8%, transparent) 60%,
+        transparent 100%
+    );
+    mix-blend-mode: screen;
+    animation: crt-beam 12s linear infinite;
 }
-.terminal-dots span:nth-child(2) {
-    background: #ffbd2e;
+
+@keyframes crt-beam {
+    0%,
+    62% {
+        top: -16%;
+        opacity: 0;
+    }
+    64% {
+        top: -16%;
+        opacity: 1;
+    }
+    96% {
+        top: 102%;
+        opacity: 1;
+    }
+    100% {
+        top: 102%;
+        opacity: 0;
+    }
 }
-.terminal-dots span:nth-child(3) {
-    background: #27c93f;
+
+@media (prefers-reduced-motion: reduce) {
+    .terminal-window::after {
+        animation: none;
+        opacity: 0;
+    }
 }
 
 .terminal-body {
-    padding: 20px 24px;
+    flex: 1 1 auto;
+    padding: 28px 28px 36px;
     color: var(--text);
     overflow-x: clip;
+    overflow-y: auto;
+    min-width: 0;
+    min-height: 0;
+    opacity: 1;
+    transition: opacity 0.9s ease;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.terminal-body.is-booting {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (min-width: 1100px) {
+    #root {
+        padding: max(14px, env(safe-area-inset-top))
+            max(14px, env(safe-area-inset-right))
+            max(14px, env(safe-area-inset-bottom))
+            max(14px, env(safe-area-inset-left));
+    }
+
+    .terminal-body {
+        padding: 36px 48px 44px;
+    }
 }
 
 @media (max-width: 768px) {
     :root {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     #root {
-        padding: max(8px, env(safe-area-inset-top))
-            max(8px, env(safe-area-inset-right))
-            max(8px, env(safe-area-inset-bottom))
-            max(8px, env(safe-area-inset-left));
+        padding: max(6px, env(safe-area-inset-top))
+            max(6px, env(safe-area-inset-right))
+            max(6px, env(safe-area-inset-bottom))
+            max(6px, env(safe-area-inset-left));
+    }
+
+    .terminal-window {
+        border-radius: 3% / 2.5%;
     }
 
     .terminal-body {
-        padding: 14px 14px;
-    }
-
-    .terminal-header {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 16px 14px 24px;
     }
 }
 
 @media (max-width: 480px) {
     :root {
-        font-size: 13px;
+        font-size: 16px;
+    }
+
+    #root {
+        padding: max(4px, env(safe-area-inset-top))
+            max(4px, env(safe-area-inset-right))
+            max(4px, env(safe-area-inset-bottom))
+            max(4px, env(safe-area-inset-left));
+    }
+
+    .terminal-window {
+        border-radius: 2.5% / 2%;
     }
 
     .terminal-body {
-        padding: 12px 10px;
+        padding: 12px 10px 20px;
+    }
+}
+
+@media (pointer: coarse) {
+    button,
+    a,
+    .command-chip {
+        touch-action: manipulation;
     }
 }
 
@@ -191,8 +333,8 @@ pre,
 
 .cursor {
     display: inline-block;
-    width: 0.6ch;
-    height: 1.1em;
+    width: 0.65ch;
+    height: 1.05em;
     background: var(--cursor);
     vertical-align: text-bottom;
     animation: blink 1s step-end infinite;

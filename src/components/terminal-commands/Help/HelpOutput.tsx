@@ -1,7 +1,6 @@
 import "./HelpOutput.css";
 import { type ReactNode } from "react";
-import { PROJECT_IDS } from "../Projects/projects.data";
-import { SKILL_CATEGORY_IDS } from "../Skills/skills.data";
+
 
 type HelpRowProps = {
     command: string;
@@ -45,9 +44,15 @@ export function HelpOutput() {
 
             <HelpSection title="Commands">
                 <HelpRow command="help" description="show this guide" />
-                <HelpRow command="about" description="my introduction" />
-                <HelpRow command="projects" description="list all projects" />
-                <HelpRow command="skills" description="list skill categories" />
+                <HelpRow command="whoami" description="personnel file / bio" />
+                <HelpRow
+                    command="projects"
+                    description="open PROJECTS.exe directory"
+                />
+                <HelpRow
+                    command="skills"
+                    description="open SPECIAL.exe skill file"
+                />
                 <HelpRow
                     command="clear"
                     description="clear the terminal screen"
@@ -64,19 +69,6 @@ export function HelpOutput() {
                     command="contact-now"
                     description="send a message (interactive prompts)"
                     note="type cancel to exit the form"
-                />
-            </HelpSection>
-
-            <HelpSection title="Usage">
-                <HelpRow
-                    command="projects <id>"
-                    description="open a project by id"
-                    note={PROJECT_IDS.join(", ")}
-                />
-                <HelpRow
-                    command="skills <category>"
-                    description="view proficiency for a category"
-                    note={SKILL_CATEGORY_IDS.join(", ")}
                 />
             </HelpSection>
         </div>

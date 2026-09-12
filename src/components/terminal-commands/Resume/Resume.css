@@ -10,12 +10,18 @@
 
 .resume-actions {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .resume-link {
     color: var(--text-bright);
     text-decoration: none;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 4px;
+    touch-action: manipulation;
 }
 
 .resume-link:hover {

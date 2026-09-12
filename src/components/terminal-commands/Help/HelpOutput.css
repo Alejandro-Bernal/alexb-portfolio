@@ -2,8 +2,8 @@
     color: var(--text);
     font-family: var(--mono);
     padding: 12px 20px;
-    font-size: 0.95em;
-    line-height: 1.5;
+    font-size: 1em;
+    line-height: 1.55;
 }
 
 .help-output .cmd {
@@ -103,8 +103,8 @@
 
 @media (max-width: 768px) {
     .help-output {
-        padding: 10px 8px;
-        font-size: 0.93em;
+        padding: 10px 4px;
+        font-size: 1em;
     }
 }
 

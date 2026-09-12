@@ -1,159 +1,261 @@
 import "./Hero.css";
 import { FigletBanner } from "./FigletBanner";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { TypedText } from "./TypedText";
-import { useTypeEffect } from "../../hooks/useTypeEffect";
+import { useTypedSequence } from "../../hooks/useTypedSequence";
 
-function Hero() {
-    // Inside the Hero function, add state to check first visit:
-    const [shouldAnimate] = useState(() => {
-        const hasVisited = localStorage.getItem("portfolio_visited");
-        if (!hasVisited) {
-            localStorage.setItem("portfolio_visited", "true");
-            return true;
-        }
-        return false;
+const COMMANDS = [
+    "help",
+    "whoami",
+    "projects",
+    "skills",
+    "contact",
+    "contact-now",
+    "resume",
+    "moose",
+    "clear",
+] as const;
+
+const META_LINES = [
+    "Full-Stack Software Engineer | Web | Mobile | Cloud | Architecture",
+    "Passionate about tooling that moves production teams",
+    "moosey OS 23.96.0",
+    "bernalforge.dev",
+    "zsh 5.9",
+    "linux-terminal",
+] as const;
+
+const WELCOME_LINES = [
+    "BERNAL FORGE (TM) TERMLINK PROTOCOL\nPERSONNEL FILE LOADED",
+    "I build full-stack web and mobile apps — user interfaces, APIs, integrations, and the cloud architecture under them (Linux, Docker, AWS).",
+    "I support production teams that need expert tooling and fast support: internal tools, pipelines, and systems that keep multiple fields moving.",
+    "I have spent six years building those tools and systems for production teams across more than one field.",
+] as const;
+
+const ROLE = 0;
+const TAGLINE = 1;
+const OS = 2;
+const HOST = 3;
+const SHELL = 4;
+const THEME = 5;
+
+type HeroProps = {
+    startIntro?: boolean;
+    instant?: boolean;
+    onIntroComplete?: () => void;
+    onRunCommand?: (command: string) => void;
+};
+
+function Hero({
+    startIntro = true,
+    instant = false,
+    onIntroComplete,
+    onRunCommand,
+}: HeroProps) {
+    const reduceMotion = useMemo(
+        () =>
+            typeof window !== "undefined" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+        [],
+    );
+    const skipAnim = reduceMotion || instant;
+    const speed = skipAnim ? 0 : 16;
+
+    const meta = useTypedSequence(META_LINES, {
+        active: startIntro,
+        speed,
+        linePause: 70,
     });
 
-    // Define the text for each line
-    // Pass the speed as 0 if shouldAnimate is false to render instantly.
-    const hookSpeed = shouldAnimate ? 25 : 0;
-    const line1Text = "Welcome to visitor@bernalforge.dev";
-    const line2Text =
-        "I build reliable, scalable, and secure web apps, Mobile apps and more.";
-    const line3Text =
-        "I specialize in MERN stack, React Native (iOS/Android App Store deployments), and full-stack architecture.";
-    const line4Text =
-        "I adapt to any tech stack, learn fast, and deliver efficiently—from concept to production.";
+    const welcome = useTypedSequence(WELCOME_LINES, {
+        active: meta.isComplete,
+        speed,
+        linePause: 90,
+    });
 
-    // Line 1 starts if we should animate, OR if it's an instant render.
-    const { displayedText: line1, isComplete: line1Done } = useTypeEffect(
-        line1Text,
-        { startOnMount: true, speed: hookSpeed },
-    );
-    const { displayedText: line2, isComplete: line2Done } = useTypeEffect(
-        line2Text,
-        { startOnMount: line1Done, speed: hookSpeed },
-    );
-    const { displayedText: line3, isComplete: line3Done } = useTypeEffect(
-        line3Text,
-        { startOnMount: line2Done, speed: hookSpeed },
-    );
-    const { displayedText: line4, isComplete: line4Done } = useTypeEffect(
-        line4Text,
-        { startOnMount: line3Done, speed: hookSpeed },
-    );
+    const hint = useTypedSequence(["Tap or Type Any command..."], {
+        active: welcome.isComplete,
+        speed,
+        linePause: 90,
+    });
+
+    const [commandCount, setCommandCount] = useState(0);
+    const commandsDone = hint.isComplete && commandCount >= COMMANDS.length;
+    const introDone = commandsDone;
+
+    useEffect(() => {
+        if (!hint.isComplete) {
+            return;
+        }
+        if (skipAnim) {
+            setCommandCount(COMMANDS.length);
+            return;
+        }
+        if (commandCount >= COMMANDS.length) {
+            return;
+        }
+        const timer = window.setTimeout(() => {
+            setCommandCount((value) => value + 1);
+        }, 70);
+        return () => window.clearTimeout(timer);
+    }, [hint.isComplete, commandCount, skipAnim]);
+
+    const notified = useRef(false);
+    useEffect(() => {
+        if (!introDone || notified.current) {
+            return;
+        }
+        notified.current = true;
+        onIntroComplete?.();
+    }, [introDone, onIntroComplete]);
 
     return (
         <div className="ascii-hero">
             <div className="hero-text">
-                <FigletBanner text="Alejandro Bernal Cruz" font="Slant" />
+                <FigletBanner text="Alejandro Bernal Cruz" />
 
-                <div className="hero-roles">
-                    <div className="role">
-                        Full-Stack Software Engineer | Systems &amp;
-                        Infrastructure
+                {meta.started(ROLE) && (
+                    <div className="hero-roles">
+                        <div className="role">
+                            <TypedText
+                                text={meta.textAt(ROLE)}
+                                showCursor={meta.isTyping(ROLE)}
+                            />
+                        </div>
+                        {meta.started(TAGLINE) && (
+                            <div className="hero-tagline">
+                                <TypedText
+                                    text={meta.textAt(TAGLINE)}
+                                    showCursor={meta.isTyping(TAGLINE)}
+                                />
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
             </div>
 
-            {/* Fastfetch mock - moose as the "logo" on the left, system info on the right */}
             <div className="fastfetch">
-                {/* <pre className="ascii-moose" aria-hidden="true">
-                    {mooseArt}
-                </pre> */}
-
                 <div className="fastfetch-info">
-                    <div className="fastfetch-line">
-                        <span className="label">OS</span>
-                        <span className="separator">:</span>
-                        <span className="value">moosey OS 23.96.0</span>
-                    </div>
-
-                    <div className="fastfetch-line">
-                        <span className="label">Host</span>
-                        <span className="separator">:</span>
-                        <span className="value">visitor@bernalforge</span>
-                    </div>
-
-                    <div className="fastfetch-line">
-                        <span className="label">Shell</span>
-                        <span className="separator">:</span>
-                        <span className="value">zsh 5.9</span>
-                    </div>
-
-                    <div className="fastfetch-line">
-                        <span className="label">Theme</span>
-                        <span className="separator">:</span>
-                        <span className="value">linux-terminal</span>
-                    </div>
-
-                    <div className="fastfetch-commands">
-                        <div className="commands-header">
-                            Available commands:
+                    {meta.started(OS) && (
+                        <div className="fastfetch-line">
+                            <span className="label">OS</span>
+                            <span className="separator">:</span>
+                            <span className="value">
+                                <TypedText
+                                    text={meta.textAt(OS)}
+                                    showCursor={meta.isTyping(OS)}
+                                />
+                            </span>
                         </div>
-                        <div className="command-list">
-                            <span>help</span>
-                            <span>about</span>
-                            <span>projects</span>
-                            <span>skills</span>
-                            <span>contact</span>
-                            <span>contact-now</span>
-                            <span>resume</span>
-                            <span>moose</span>
-                            <span>clear</span>
-                        </div>
+                    )}
 
+                    {meta.started(HOST) && (
+                        <div className="fastfetch-line">
+                            <span className="label">Host</span>
+                            <span className="separator">:</span>
+                            <span className="value">
+                                <TypedText
+                                    text={meta.textAt(HOST)}
+                                    showCursor={meta.isTyping(HOST)}
+                                />
+                            </span>
+                        </div>
+                    )}
+
+                    {meta.started(SHELL) && (
+                        <div className="fastfetch-line">
+                            <span className="label">Shell</span>
+                            <span className="separator">:</span>
+                            <span className="value">
+                                <TypedText
+                                    text={meta.textAt(SHELL)}
+                                    showCursor={meta.isTyping(SHELL)}
+                                />
+                            </span>
+                        </div>
+                    )}
+
+                    {meta.started(THEME) && (
+                        <div className="fastfetch-line">
+                            <span className="label">Theme</span>
+                            <span className="separator">:</span>
+                            <span className="value">
+                                <TypedText
+                                    text={meta.textAt(THEME)}
+                                    showCursor={meta.isTyping(THEME)}
+                                />
+                            </span>
+                        </div>
+                    )}
+
+                    {meta.isComplete && (
                         <div className="fastfetch-welcome">
-                            <p className="welcome-line welcome-host">
-                                <TypedText
-                                    text={line1}
-                                    showCursor={shouldAnimate && !line1Done}
-                                />
-                            </p>
+                            {welcome.started(0) && (
+                                <p className="welcome-line welcome-host">
+                                    <TypedText
+                                        text={welcome.textAt(0)}
+                                        showCursor={welcome.isTyping(0)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(1) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(1)}
+                                        showCursor={welcome.isTyping(1)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(2) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(2)}
+                                        showCursor={welcome.isTyping(2)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(3) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(3)}
+                                        showCursor={welcome.isTyping(3)}
+                                    />
+                                </p>
+                            )}
 
-                            <p className="welcome-line welcome-desc">
-                                <TypedText
-                                    text={line2}
-                                    showCursor={line1Done && !line2Done}
-                                />
-                            </p>
+                            {hint.started(0) && (
+                                <p className="welcome-line welcome-hint">
+                                    <TypedText
+                                        text={hint.textAt(0)}
+                                        showCursor={hint.isTyping(0)}
+                                    />
+                                </p>
+                            )}
 
-                            <p className="welcome-line welcome-desc">
-                                <TypedText
-                                    text={line3}
-                                    showCursor={line2Done && !line3Done}
-                                />
-                            </p>
-
-                            <p className="welcome-line welcome-desc">
-                                <TypedText
-                                    text={line4}
-                                    showCursor={line3Done && !line4Done}
-                                />
-                            </p>
-
-                            {/* Links appear after all typing is done */}
-                            {line4Done && (
-                                <div className="welcome-links">
-                                    <a
-                                        href="https://github.com/Alejandro-Bernal"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        GitHub
-                                    </a>
-                                    <a
-                                        href="https://www.linkedin.com/in/alejandro-bernal-cruz"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        LinkedIn
-                                    </a>
+                            {commandCount > 0 && (
+                                <div
+                                    className="command-chip-bar"
+                                    aria-label="Commands"
+                                >
+                                    {COMMANDS.slice(0, commandCount).map(
+                                        (command) => (
+                                            <button
+                                                key={command}
+                                                type="button"
+                                                className="command-chip"
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    onRunCommand?.(command);
+                                                }}
+                                            >
+                                                {command}
+                                            </button>
+                                        ),
+                                    )}
                                 </div>
                             )}
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

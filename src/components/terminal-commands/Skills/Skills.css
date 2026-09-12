@@ -1,3 +1,131 @@
+.special-sheet {
+    color: var(--text);
+    font-family: var(--mono);
+    padding: 8px 4px 16px;
+}
+
+.special-kicker {
+    margin: 0 0 8px;
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+}
+
+.special-title {
+    margin: 0 0 16px;
+    color: var(--accent);
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    text-shadow: var(--glow);
+}
+
+.special-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.9fr);
+    gap: 20px 28px;
+    align-items: start;
+}
+
+.special-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.special-row {
+    display: grid;
+    grid-template-columns: 3.2ch minmax(0, 1fr) auto 2ch;
+    gap: 10px;
+    align-items: center;
+}
+
+.special-code {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.special-label {
+    color: var(--text-bright);
+}
+
+.special-pips {
+    display: flex;
+    gap: 4px;
+}
+
+.special-pip {
+    width: 12px;
+    height: 12px;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    background: transparent;
+}
+
+.special-pip.is-filled {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: var(--glow);
+}
+
+.special-value {
+    color: var(--text-dim);
+    text-align: right;
+}
+
+.special-bio {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+}
+
+.special-bio-title {
+    margin: 0 0 10px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+}
+
+.special-bio p {
+    margin: 0 0 10px;
+    color: var(--text);
+    line-height: 1.45;
+}
+
+.special-signoff {
+    margin-top: 14px !important;
+    color: var(--text-dim);
+}
+
+.special-hint {
+    margin: 16px 0 0;
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+.special-hint .cmd {
+    color: var(--text-bright);
+}
+
+.special-hint-dim {
+    opacity: 0.8;
+}
+
+@media (max-width: 800px) {
+    .special-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .special-row {
+        grid-template-columns: 3.2ch minmax(0, 1fr);
+        gap: 4px 10px;
+    }
+
+    .special-pips {
+        grid-column: 2;
+    }
+
+    .special-value {
+        display: none;
+    }
+}
+
 .skills-output {
     color: var(--text);
     font-family: var(--mono);

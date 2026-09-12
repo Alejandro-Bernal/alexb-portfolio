@@ -62,7 +62,7 @@
 
 .contact-message {
     color: var(--text-dim);
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 8px;
 }
 
@@ -107,6 +107,11 @@
 .contact-links a {
     color: var(--accent);
     text-decoration: none;
+    overflow-wrap: anywhere;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    touch-action: manipulation;
 }
 
 .contact-links a:hover {
