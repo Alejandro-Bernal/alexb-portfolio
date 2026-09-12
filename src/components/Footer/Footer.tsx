@@ -12,10 +12,26 @@ export function Footer() {
                     to="/privacy-policy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="privacy-link"
+                    className="footer-link"
                 >
                     Privacy Policy
                 </Link>
+                <a
+                    href="https://github.com/Alejandro-Bernal"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="footer-link"
+                >
+                    GitHub
+                </a>
+                <a
+                    href="https://www.linkedin.com/in/alejandro-bernal-cruz"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="footer-link"
+                >
+                    LinkedIn
+                </a>
             </div>
         </footer>
     );

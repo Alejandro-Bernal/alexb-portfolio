@@ -8,51 +8,21 @@ type BootStep =
     | { kind: "check"; label: string; wait?: number };
 
 const SCRIPT: BootStep[] = [
-    { kind: "print", text: "WELCOME TO MOOSE OS (TM) TERMLINK", wait: 280 },
-    { kind: "blank", wait: 180 },
-    { kind: "type", text: "> SET TERMINAL/INQUIRE", speed: 16, wait: 220 },
-    { kind: "print", text: "BERNALFORGE-V323", wait: 200 },
-    { kind: "blank", wait: 120 },
-    {
-        kind: "type",
-        text: "> SET FILE/PROTECTION=OWNER:RWED ACCOUNTS.F",
-        speed: 12,
-        wait: 80,
-    },
-    { kind: "type", text: "> SET HALT RESTART/MAINT", speed: 14, wait: 260 },
+    { kind: "print", text: "WELCOME TO MOOSE OS (TM) TERMLINK", wait: 180 },
     { kind: "blank", wait: 80 },
     {
         kind: "print",
         text: "Initializing Moose OS(TM) MF Boot Agent v2.3.0",
-        wait: 140,
+        wait: 100,
     },
-    { kind: "print", text: "RETROS BIOS", wait: 80 },
-    { kind: "print", text: "RBIOS-4.02.08.00 52EE5.E7.E8", wait: 80 },
-    { kind: "print", text: "Copyright 2201-2203 Moose OS", wait: 80 },
-    { kind: "print", text: "Uppermem: 64 KB", wait: 80 },
-    { kind: "print", text: "Root (5A8)", wait: 80 },
-    { kind: "print", text: "Maintenance Mode", wait: 220 },
-    { kind: "blank", wait: 80 },
-    { kind: "type", text: "> RUN MOOSE-OS.SYS", speed: 16, wait: 280 },
-    { kind: "print", text: "********************************************", wait: 40 },
-    {
-        kind: "print",
-        text: "*  MOOSE-OS 23.96.0  //  VAULT-323         *",
-        wait: 40,
-    },
-    {
-        kind: "print",
-        text: "*  PERSONNEL FILE: ALEJANDRO BERNAL        *",
-        wait: 40,
-    },
-    { kind: "print", text: "********************************************", wait: 220 },
-    { kind: "blank", wait: 60 },
-    { kind: "check", label: "MEMORY CHECK", wait: 80 },
-    { kind: "check", label: "STORAGE", wait: 80 },
-    { kind: "check", label: "NETWORK", wait: 80 },
-    { kind: "check", label: "PROFILE", wait: 180 },
-    { kind: "blank", wait: 80 },
-    { kind: "type", text: "> START /home/visitor/PERSONNEL.DAT", speed: 14, wait: 700 },
+    { kind: "print", text: "MOOSE-OS 23.96.0  //  PERSONNEL FILE", wait: 120 },
+    { kind: "blank", wait: 40 },
+    { kind: "check", label: "MEMORY CHECK", wait: 50 },
+    { kind: "check", label: "STORAGE", wait: 50 },
+    { kind: "check", label: "NETWORK", wait: 50 },
+    { kind: "check", label: "PROFILE", wait: 80 },
+    { kind: "blank", wait: 40 },
+    { kind: "type", text: "> START /home/visitor/PERSONNEL.DAT", speed: 12, wait: 280 },
 ];
 
 type BootScreenProps = {
@@ -218,7 +188,7 @@ export function BootScreen({ onComplete }: BootScreenProps) {
                 ))}
                 {!fading && <span className="cursor boot-cursor" />}
             </pre>
-            <p className="boot-skip">Press any key or click to skip</p>
+            <p className="boot-skip">Tap anywhere or press any key to skip</p>
         </div>
     );
 }

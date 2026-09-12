@@ -17,27 +17,27 @@ const COMMANDS = [
 ] as const;
 
 const META_LINES = [
-    "Full-Stack Software Engineer | Systems & Infrastructure",
+    "Full-Stack Software Engineer | Web | Mobile | Cloud | Architecture",
+    "Passionate about tooling that moves production teams",
     "moosey OS 23.96.0",
-    "visitor@bernalforge",
+    "bernalforge.dev",
     "zsh 5.9",
     "linux-terminal",
-    "Available commands:",
 ] as const;
 
 const WELCOME_LINES = [
-    "Welcome to visitor@bernalforge.dev",
-    "I build reliable, scalable, and secure web apps, Mobile apps and more.",
-    "I specialize in MERN stack, React Native (iOS/Android App Store deployments), and full-stack architecture.",
-    "I adapt to any tech stack, learn fast, and deliver efficiently—from concept to production.",
+    "BERNAL FORGE (TM) TERMLINK PROTOCOL\nPERSONNEL FILE LOADED",
+    "I build full-stack web and mobile apps — user interfaces, APIs, integrations, and the cloud architecture under them (Linux, Docker, AWS).",
+    "I support production teams that need expert tooling and fast support: internal tools, pipelines, and systems that keep multiple fields moving.",
+    "I have spent six years building those tools and systems for production teams across more than one field.",
 ] as const;
 
 const ROLE = 0;
-const OS = 1;
-const HOST = 2;
-const SHELL = 3;
-const THEME = 4;
-const CMD_HEADER = 5;
+const TAGLINE = 1;
+const OS = 2;
+const HOST = 3;
+const SHELL = 4;
+const THEME = 5;
 
 type HeroProps = {
     startIntro?: boolean;
@@ -67,12 +67,24 @@ function Hero({
         linePause: 70,
     });
 
+    const welcome = useTypedSequence(WELCOME_LINES, {
+        active: meta.isComplete,
+        speed,
+        linePause: 90,
+    });
+
+    const hint = useTypedSequence(["Tap or Type Any command..."], {
+        active: welcome.isComplete,
+        speed,
+        linePause: 90,
+    });
+
     const [commandCount, setCommandCount] = useState(0);
-    const commandsDone =
-        meta.isComplete && commandCount >= COMMANDS.length;
+    const commandsDone = hint.isComplete && commandCount >= COMMANDS.length;
+    const introDone = commandsDone;
 
     useEffect(() => {
-        if (!meta.isComplete) {
+        if (!hint.isComplete) {
             return;
         }
         if (skipAnim) {
@@ -86,33 +98,7 @@ function Hero({
             setCommandCount((value) => value + 1);
         }, 70);
         return () => window.clearTimeout(timer);
-    }, [meta.isComplete, commandCount, skipAnim]);
-
-    const welcome = useTypedSequence(WELCOME_LINES, {
-        active: commandsDone,
-        speed,
-        linePause: 90,
-    });
-
-    const [linkCount, setLinkCount] = useState(0);
-    const introDone = welcome.isComplete && linkCount >= 2;
-
-    useEffect(() => {
-        if (!welcome.isComplete) {
-            return;
-        }
-        if (skipAnim) {
-            setLinkCount(2);
-            return;
-        }
-        if (linkCount >= 2) {
-            return;
-        }
-        const timer = window.setTimeout(() => {
-            setLinkCount((value) => value + 1);
-        }, 140);
-        return () => window.clearTimeout(timer);
-    }, [welcome.isComplete, linkCount, skipAnim]);
+    }, [hint.isComplete, commandCount, skipAnim]);
 
     const notified = useRef(false);
     useEffect(() => {
@@ -136,6 +122,14 @@ function Hero({
                                 showCursor={meta.isTyping(ROLE)}
                             />
                         </div>
+                        {meta.started(TAGLINE) && (
+                            <div className="hero-tagline">
+                                <TypedText
+                                    text={meta.textAt(TAGLINE)}
+                                    showCursor={meta.isTyping(TAGLINE)}
+                                />
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -194,16 +188,55 @@ function Hero({
                         </div>
                     )}
 
-                    {meta.started(CMD_HEADER) && (
-                        <div className="fastfetch-commands">
-                            <div className="commands-header">
-                                <TypedText
-                                    text={meta.textAt(CMD_HEADER)}
-                                    showCursor={meta.isTyping(CMD_HEADER)}
-                                />
-                            </div>
+                    {meta.isComplete && (
+                        <div className="fastfetch-welcome">
+                            {welcome.started(0) && (
+                                <p className="welcome-line welcome-host">
+                                    <TypedText
+                                        text={welcome.textAt(0)}
+                                        showCursor={welcome.isTyping(0)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(1) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(1)}
+                                        showCursor={welcome.isTyping(1)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(2) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(2)}
+                                        showCursor={welcome.isTyping(2)}
+                                    />
+                                </p>
+                            )}
+                            {welcome.started(3) && (
+                                <p className="welcome-line welcome-desc">
+                                    <TypedText
+                                        text={welcome.textAt(3)}
+                                        showCursor={welcome.isTyping(3)}
+                                    />
+                                </p>
+                            )}
+
+                            {hint.started(0) && (
+                                <p className="welcome-line welcome-hint">
+                                    <TypedText
+                                        text={hint.textAt(0)}
+                                        showCursor={hint.isTyping(0)}
+                                    />
+                                </p>
+                            )}
+
                             {commandCount > 0 && (
-                                <div className="command-list">
+                                <div
+                                    className="command-chip-bar"
+                                    aria-label="Commands"
+                                >
                                     {COMMANDS.slice(0, commandCount).map(
                                         (command) => (
                                             <button
@@ -218,66 +251,6 @@ function Hero({
                                                 {command}
                                             </button>
                                         ),
-                                    )}
-                                </div>
-                            )}
-
-                            {commandsDone && (
-                                <div className="fastfetch-welcome">
-                                    {welcome.started(0) && (
-                                        <p className="welcome-line welcome-host">
-                                            <TypedText
-                                                text={welcome.textAt(0)}
-                                                showCursor={welcome.isTyping(0)}
-                                            />
-                                        </p>
-                                    )}
-                                    {welcome.started(1) && (
-                                        <p className="welcome-line welcome-desc">
-                                            <TypedText
-                                                text={welcome.textAt(1)}
-                                                showCursor={welcome.isTyping(1)}
-                                            />
-                                        </p>
-                                    )}
-                                    {welcome.started(2) && (
-                                        <p className="welcome-line welcome-desc">
-                                            <TypedText
-                                                text={welcome.textAt(2)}
-                                                showCursor={welcome.isTyping(2)}
-                                            />
-                                        </p>
-                                    )}
-                                    {welcome.started(3) && (
-                                        <p className="welcome-line welcome-desc">
-                                            <TypedText
-                                                text={welcome.textAt(3)}
-                                                showCursor={welcome.isTyping(3)}
-                                            />
-                                        </p>
-                                    )}
-
-                                    {linkCount > 0 && (
-                                        <div className="welcome-links">
-                                            {linkCount >= 1 && (
-                                                <a
-                                                    href="https://github.com/Alejandro-Bernal"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                >
-                                                    GitHub
-                                                </a>
-                                            )}
-                                            {linkCount >= 2 && (
-                                                <a
-                                                    href="https://www.linkedin.com/in/alejandro-bernal-cruz"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                >
-                                                    LinkedIn
-                                                </a>
-                                            )}
-                                        </div>
                                     )}
                                 </div>
                             )}

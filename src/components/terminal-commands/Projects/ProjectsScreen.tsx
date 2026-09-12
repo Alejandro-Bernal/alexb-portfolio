@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PROJECTS } from "./projects.data";
 import { ProjectReadme } from "./Projects";
+import { useMobileDetailScroll } from "../shared/useMobileDetailScroll";
 import "./ProjectsScreen.css";
 
 type ProjectsScreenProps = {
@@ -11,6 +12,7 @@ export function ProjectsScreen({ onExit }: ProjectsScreenProps) {
     const [selectedId, setSelectedId] = useState(PROJECTS[0]?.id ?? "");
     const project =
         PROJECTS.find((item) => item.id === selectedId) ?? PROJECTS[0];
+    const { containerRef, detailRef, revealDetail } = useMobileDetailScroll();
 
     useEffect(() => {
         const onKey = (event: KeyboardEvent) => {
@@ -28,12 +30,12 @@ export function ProjectsScreen({ onExit }: ProjectsScreenProps) {
     }
 
     return (
-        <div className="projects-screen">
+        <div className="projects-screen" ref={containerRef}>
             <header className="projects-exe-header">
                 <div>
                     <p className="projects-exe">PROJECTS.EXE</p>
                     <p className="projects-exe-sub">
-                        project directory — click a repo to inspect
+                        project directory. click a tool to inspect STAR + stack
                     </p>
                 </div>
                 <button
@@ -56,7 +58,11 @@ export function ProjectsScreen({ onExit }: ProjectsScreenProps) {
                                     ? "projects-exe-item is-active"
                                     : "projects-exe-item"
                             }
-                            onClick={() => setSelectedId(item.id)}
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => {
+                                setSelectedId(item.id);
+                                revealDetail();
+                            }}
                         >
                             <span className="projects-exe-id">{item.id}</span>
                             <span className="projects-exe-name">
@@ -72,6 +78,7 @@ export function ProjectsScreen({ onExit }: ProjectsScreenProps) {
                 </nav>
 
                 <section
+                    ref={detailRef}
                     className="projects-exe-detail"
                     aria-live="polite"
                     aria-label={`${project.name} project details`}

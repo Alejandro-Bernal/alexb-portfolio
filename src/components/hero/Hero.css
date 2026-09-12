@@ -3,7 +3,8 @@
     margin-bottom: 16px;
     max-width: 100%;
     min-width: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .hero-text {
@@ -42,13 +43,27 @@
 /* Roles / normal text below the figlet */
 .hero-roles {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
-    font-size: 20px;
+    gap: 6px;
+    font-size: 22px;
     color: var(--text-dim);
-    line-height: 1.25;
+    line-height: 1.3;
+    max-width: 100%;
 }
 
-.role {
+.role,
+.hero-tagline {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.hero-tagline {
+    font-size: 0.78em;
+    color: var(--text);
+    line-height: 1.35;
 }
 
 /* === Fastfetch mock - moose as the left "logo" + system info === */
@@ -58,9 +73,9 @@
     align-items: flex-start;
     gap: 25px;
     margin-top: 25px;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: visible;
 }
 
 .ascii-moose {
@@ -78,14 +93,16 @@
 
 .fastfetch-info {
     font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.45;
     color: var(--text);
     min-width: 200px;
+    max-width: 100%;
 }
 
 .fastfetch-line {
     margin-bottom: 3px;
+    overflow-wrap: anywhere;
 }
 
 .fastfetch-line .label {
@@ -103,58 +120,22 @@
     color: var(--text-bright);
 }
 
-.fastfetch-commands {
-    margin-top: 10px;
-    padding-top: 6px;
-    border-top: 1px solid var(--border);
-}
-
-.commands-header {
-    color: var(--text-dim);
-    font-size: 12px;
-    margin-bottom: 4px;
-}
-
-.command-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.command-list span,
-.command-chip {
-    color: var(--accent);
-    background: var(--bg-elevated);
-    padding: 1px 7px;
-    border-radius: 2px;
-    font-size: 12px;
-    border: 1px solid var(--border);
-    font-family: var(--mono);
-    cursor: pointer;
-    line-height: inherit;
-}
-
-.command-chip:hover,
-.command-chip:focus-visible {
-    color: var(--text-bright);
-    border-color: var(--accent);
-    text-shadow: var(--glow);
-}
-
 .fastfetch-welcome {
     margin-top: 12px;
     padding-top: 8px;
     border-top: 1px dashed var(--border);
     color: var(--text);
     font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.3;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .fastfetch-welcome .welcome-host {
     color: var(--text-bright);
     font-weight: 600;
     margin-bottom: 4px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .fastfetch-welcome .welcome-role {
@@ -164,39 +145,59 @@
 
 .fastfetch-welcome .welcome-desc {
     color: var(--text);
+    overflow-wrap: anywhere;
 }
 
 .fastfetch-welcome .welcome-note {
     color: var(--text-dim);
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 8px;
 }
 
-.fastfetch-welcome .welcome-links {
-    margin-top: 8px;
+.fastfetch-welcome .welcome-hint {
+    color: var(--text-dim);
+    margin: 12px 0 0;
+    font-size: 14px;
+}
+
+.command-chip-bar {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 0;
+    max-width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg);
+    padding: 8px 0 10px;
 }
 
-.fastfetch-welcome .welcome-links a {
+.command-chip {
     color: var(--accent);
     background: var(--bg-elevated);
-    padding: 2px 8px;
-    border-radius: 3px;
-    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-size: 14px;
     border: 1px solid var(--border);
-    text-decoration: none;
+    font-family: var(--mono);
+    cursor: pointer;
+    line-height: 1.3;
+    min-height: 36px;
+    touch-action: manipulation;
 }
 
-.fastfetch-welcome .welcome-links a:hover {
+.command-chip:hover,
+.command-chip:focus-visible {
     color: var(--text-bright);
-    border-color: var(--text-dim);
+    border-color: var(--accent);
+    text-shadow: var(--glow);
 }
 
 .neofetch-output .neofetch-note {
     color: var(--text-dim);
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 6px;
 }
 
@@ -205,8 +206,8 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-        margin-top: 20px;
-        margin-bottom: 24px;
+        margin-top: 16px;
+        margin-bottom: 12px;
     }
 
     .fastfetch-info {
@@ -224,33 +225,37 @@
 
 @media (max-width: 768px) {
     .hero-roles {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+        font-size: 18px;
         gap: 4px;
-        font-size: 16px;
+    }
+
+    .command-chip {
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
     .hero-roles {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .figlet {
-        font-size: clamp(1.5rem, 8.6vw, 2.2rem);
+        font-size: clamp(1.6rem, 9vw, 2.4rem);
     }
 
-    .fastfetch-info {
-        font-size: 12px;
+    .fastfetch-info,
+    .fastfetch-welcome {
+        font-size: 15px;
     }
 
-    .command-list {
-        gap: 4px;
+    .command-chip-bar {
+        gap: 8px;
     }
 
-    .command-list span,
     .command-chip {
-        font-size: 11px;
+        flex: 0 1 auto;
+        text-align: center;
     }
 }

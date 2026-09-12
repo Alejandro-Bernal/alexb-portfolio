@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SPECIAL_STATS, type SpecialId, type Skill } from "./skills.data";
+import { useMobileDetailScroll } from "../shared/useMobileDetailScroll";
 import "./SpecialScreen.css";
 
 type SpecialScreenProps = {
@@ -42,6 +43,7 @@ function SkillBars({ skills }: { skills: Skill[] }) {
 export function SpecialScreen({ onExit }: SpecialScreenProps) {
     const [selected, setSelected] = useState<SpecialId>("str");
     const stat = SPECIAL_STATS.find((item) => item.id === selected) ?? SPECIAL_STATS[0];
+    const { containerRef, detailRef, revealDetail } = useMobileDetailScroll();
 
     useEffect(() => {
         const onKey = (event: KeyboardEvent) => {
@@ -55,7 +57,7 @@ export function SpecialScreen({ onExit }: SpecialScreenProps) {
     }, [onExit]);
 
     return (
-        <div className="special-screen">
+        <div className="special-screen" ref={containerRef}>
             <header className="special-header">
                 <div>
                     <p className="special-exe">SPECIAL.EXE</p>
@@ -79,7 +81,11 @@ export function SpecialScreen({ onExit }: SpecialScreenProps) {
                                     ? "special-attr is-active"
                                     : "special-attr"
                             }
-                            onClick={() => setSelected(item.id)}
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => {
+                                setSelected(item.id);
+                                revealDetail();
+                            }}
                         >
                             <span className="special-attr-code">{item.code}</span>
                             <span className="special-attr-name">{item.name}</span>
@@ -99,7 +105,11 @@ export function SpecialScreen({ onExit }: SpecialScreenProps) {
                     ))}
                 </nav>
 
-                <section className="special-detail" aria-live="polite">
+                <section
+                    ref={detailRef}
+                    className="special-detail"
+                    aria-live="polite"
+                >
                     <p className="special-detail-kicker">
                         {stat.code} // {stat.group.toUpperCase()}
                     </p>

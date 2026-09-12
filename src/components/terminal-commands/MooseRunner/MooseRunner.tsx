@@ -21,12 +21,14 @@ type GameState = {
     score: number;
 };
 
-const HEIGHT = 200;
 const GROUND = 28;
 const PLAYER_X = 48;
 const PLAYER_SIZE = 20;
 const GRAVITY = 2400;
 const JUMP = -740;
+const MIN_HEIGHT = 140;
+const MAX_HEIGHT = 280;
+const DEFAULT_HEIGHT = 200;
 
 type MooseRunnerProps = {
     onExit: () => void;
@@ -72,6 +74,7 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
         start: () => {},
         jump: () => {},
         retry: () => {},
+        act: () => {},
     });
 
     useEffect(() => {
@@ -99,10 +102,11 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
         };
 
         let width = 640;
+        let height = DEFAULT_HEIGHT;
         let raf = 0;
         let last = 0;
 
-        const groundY = () => HEIGHT - GROUND;
+        const groundY = () => height - GROUND;
 
         const reset = () => {
             state.phase = "ready";
@@ -139,6 +143,19 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
             }
         };
 
+        const act = () => {
+            if (state.phase === "ready") {
+                begin();
+                return;
+            }
+            if (state.phase === "dead") {
+                reset();
+                begin();
+                return;
+            }
+            jump();
+        };
+
         controls.current = {
             start: begin,
             jump,
@@ -146,24 +163,36 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
                 reset();
                 begin();
             },
+            act,
         };
 
         const resize = () => {
-            width = Math.max(280, Math.floor(wrap.clientWidth));
+            width = Math.max(240, Math.floor(wrap.clientWidth));
+            const available = wrap.clientHeight || DEFAULT_HEIGHT;
+            height = Math.max(
+                MIN_HEIGHT,
+                Math.min(MAX_HEIGHT, Math.floor(available)),
+            );
+            const floor = groundY() - PLAYER_SIZE;
+            if (state.onGround || state.y > floor) {
+                state.y = floor;
+                state.vy = 0;
+                state.onGround = true;
+            }
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             canvas.width = Math.floor(width * dpr);
-            canvas.height = Math.floor(HEIGHT * dpr);
+            canvas.height = Math.floor(height * dpr);
             canvas.style.width = `${width}px`;
-            canvas.style.height = `${HEIGHT}px`;
+            canvas.style.height = `${height}px`;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
 
         const draw = () => {
             const accent = readAccent();
             const gy = groundY();
-            ctx.clearRect(0, 0, width, HEIGHT);
+            ctx.clearRect(0, 0, width, height);
             ctx.fillStyle = "rgba(0, 0, 0, 0.28)";
-            ctx.fillRect(0, 0, width, HEIGHT);
+            ctx.fillRect(0, 0, width, height);
 
             ctx.strokeStyle = accent;
             ctx.globalAlpha = 0.45;
@@ -248,16 +277,7 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
             }
             event.preventDefault();
             event.stopPropagation();
-            if (state.phase === "ready") {
-                begin();
-                return;
-            }
-            if (state.phase === "dead") {
-                reset();
-                begin();
-                return;
-            }
-            jump();
+            act();
         };
 
         reset();
@@ -267,10 +287,9 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
 
         const ro = new ResizeObserver(resize);
         ro.observe(wrap);
-        const onPointer = () => {
-            if (state.phase === "playing") {
-                jump();
-            }
+        const onPointer = (event: PointerEvent) => {
+            event.preventDefault();
+            act();
         };
         canvas.addEventListener("pointerdown", onPointer);
         window.addEventListener("keydown", onKey, true);
@@ -282,6 +301,13 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
             window.removeEventListener("keydown", onKey, true);
         };
     }, []);
+
+    const helpText =
+        phase === "playing"
+            ? "space / tap to jump · avoid the triangles"
+            : phase === "dead"
+              ? "moose down — start to retry or exit"
+              : "start, space, or tap · then jump the spikes";
 
     return (
         <div className="moose-screen">
@@ -315,17 +341,26 @@ export function MooseRunner({ onExit }: MooseRunnerProps) {
                     ref={canvasRef}
                     className="moose-runner-canvas"
                     tabIndex={0}
-                    aria-label="Moose runner. Press space or click to jump."
+                    aria-label="Moose runner. Tap or press space to jump."
                 />
             </div>
 
-            <p className="moose-runner-help">
+            <p className="moose-runner-help">{helpText}</p>
+
+            <button
+                type="button"
+                className="moose-jump-pad"
+                onPointerDown={(event) => {
+                    event.preventDefault();
+                    controls.current.act();
+                }}
+            >
                 {phase === "playing"
-                    ? "space / click to jump · avoid the triangles"
+                    ? "JUMP"
                     : phase === "dead"
-                      ? "moose down — start to retry or exit"
-                      : "press start or space · then jump the spikes"}
-            </p>
+                      ? "RETRY"
+                      : "START"}
+            </button>
         </div>
     );
 }

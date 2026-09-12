@@ -14,7 +14,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 0;
-    margin-top: 12px;
+    margin-top: 8px;
     row-gap: 4px;
 }
 
@@ -43,14 +43,26 @@
     display: grid;
     flex: 1 1 0;
     min-width: 0;
-    /* Two columns: input/hint takes up available space (1fr), counter takes up its content width (auto) */
     grid-template-columns: 1fr auto;
-    gap: 8px; /* Space between input and counter */
+    gap: 8px;
     align-items: center;
 }
+
+.terminal-input-edit {
+    display: grid;
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+}
+
 .terminal-input-hint,
-.terminal-input {
-    grid-column: 1; /* Both sit in the first column to overlap */
+.terminal-input,
+.terminal-textarea,
+.terminal-caret-sizer {
+    grid-column: 1;
     grid-row: 1;
 }
 
@@ -67,7 +79,27 @@
     user-select: none;
 }
 
-.terminal-input {
+.terminal-caret-sizer {
+    display: block;
+    font-family: var(--mono);
+    font-size: inherit;
+    line-height: inherit;
+    white-space: pre;
+    color: transparent;
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.terminal-input-edit.is-multiline .terminal-caret-sizer {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.terminal-input,
+.terminal-textarea {
     width: 100%;
     background: transparent;
     border: none;
@@ -78,17 +110,18 @@
     font-size: inherit;
     line-height: inherit;
     color: var(--text);
-    caret-color: var(--cursor);
+    caret-color: transparent !important;
 }
 
 .terminal-char-counter {
-    grid-column: 2; /* Sit in the second column on the right */
+    grid-column: 2;
     grid-row: 1;
     color: var(--text-dim);
     font-family: var(--mono);
 }
 
-.terminal-input:focus {
+.terminal-input:focus,
+.terminal-textarea:focus {
     outline: none;
     box-shadow: none;
 }
@@ -107,38 +140,29 @@
 }
 
 .terminal-textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    font-family: var(--mono);
-    font-size: inherit;
-    line-height: inherit;
-    color: var(--text);
-    caret-color: var(--cursor);
-    resize: none; /* Disable manual resizing by the user */
-    overflow-y: hidden; /* Hide the scrollbar */
-}
-
-.terminal-textarea:focus {
-    outline: none;
-    box-shadow: none;
+    resize: none;
+    overflow-y: hidden;
 }
 
 @media (max-width: 768px) {
     .command-line {
-        align-items: flex-start;
+        align-items: center;
+        flex-wrap: nowrap;
     }
 
     .terminal-input-field {
-        flex: 1 1 100%;
+        flex: 1 1 0;
+    }
+
+    .terminal-input,
+    .terminal-textarea,
+    .terminal-caret-sizer {
+        font-size: 16px;
     }
 }
 
 @media (max-width: 480px) {
     .prompt-prefix {
-        white-space: normal;
+        white-space: pre;
     }
 }

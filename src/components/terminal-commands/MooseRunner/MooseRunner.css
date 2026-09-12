@@ -5,10 +5,12 @@
     min-height: 0;
     padding: 28px 28px 20px;
     color: var(--text);
+    overflow: hidden;
 }
 
 .moose-header {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    flex: 0 0 auto;
 }
 
 .moose-title {
@@ -23,7 +25,7 @@
 .moose-sub {
     margin: 4px 0 0;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-dim);
 }
 
@@ -33,20 +35,26 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 12px;
+    flex: 0 0 auto;
 }
 
-.moose-btn {
+.moose-btn,
+.moose-jump-pad {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     color: var(--accent);
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    padding: 4px 12px;
+    padding: 8px 14px;
+    min-height: 40px;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .moose-btn:hover,
-.moose-btn:focus-visible {
+.moose-btn:focus-visible,
+.moose-jump-pad:hover,
+.moose-jump-pad:focus-visible {
     color: var(--text-bright);
     border-color: var(--accent);
     text-shadow: var(--glow);
@@ -55,37 +63,98 @@
 .moose-score {
     margin-left: auto;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-dim);
 }
 
 .moose-runner {
     width: 100%;
-    max-width: 920px;
+    max-width: 100%;
+    flex: 1 1 auto;
+    min-height: 140px;
+    max-height: 280px;
 }
 
 .moose-runner-canvas {
     display: block;
     width: 100%;
     height: 200px;
+    max-height: 100%;
     border: 1px solid var(--border);
     background: color-mix(in srgb, var(--bg) 80%, black);
     outline: none;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .moose-runner-help {
     margin: 10px 0 0;
     color: var(--text-dim);
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 13px;
+    flex: 0 0 auto;
+}
+
+.moose-jump-pad {
+    display: none;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 12px;
+    min-height: 56px;
+    letter-spacing: 0.16em;
+    font-size: 16px;
+    flex: 0 0 auto;
+}
+
+@media (pointer: coarse) {
+    .moose-jump-pad {
+        display: block;
+    }
 }
 
 @media (max-width: 768px) {
     .moose-screen {
-        padding: 18px 16px 16px;
+        padding: 14px 12px 12px;
     }
 
     .moose-title {
         font-size: 18px;
+    }
+
+    .moose-btn {
+        min-height: 44px;
+        padding: 10px 16px;
+    }
+
+    .moose-jump-pad {
+        min-height: 64px;
+    }
+}
+
+@media (max-width: 480px) {
+    .moose-screen {
+        padding: 12px 10px 10px;
+    }
+
+    .moose-header {
+        margin-bottom: 8px;
+    }
+
+    .moose-score {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-height: 500px) {
+    .moose-runner {
+        min-height: 120px;
+        max-height: 160px;
+    }
+
+    .moose-jump-pad {
+        min-height: 48px;
+        margin-top: 8px;
     }
 }

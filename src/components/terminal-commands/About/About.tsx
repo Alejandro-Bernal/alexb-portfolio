@@ -23,56 +23,43 @@ export function About() {
                     className="about-portrait"
                 />
 
-                <p>Hi! Welcome to my portfolio CLI.</p>
+                <p>Hi. I'm Alejandro.</p>
 
                 <p>
-                    I'm Alejandro, a passionate Full-Stack Web and Software
-                    Developer and tech enthusiast with the ability to create,
-                    innovate and lead.
+                    I was born in El Salvador and grew up in Los Angeles. Mario
+                    Bros. on the NES was the gateway. I wanted to know how those
+                    games worked and how they were built.
                 </p>
 
                 <p>
-                    Born in El Salvador and having called Los Angeles home since
-                    2004, I discovered my passion for technology through video
-                    games — starting with Mario Bros. on the NES. This early
-                    spark led me to dive hands-on into development in high
-                    school, where I served as Scrum Leader and developer on a
-                    team project that built SAT Fighters, a learn-as-you-play
-                    SAT vocabulary prep game. Our work earned 2nd place in a
-                    pitch contest and an invitation to Google LA, where I had
-                    the opportunity to speak with Eric Schmidt. These
-                    experiences solidified my path, culminating in a Bachelor of
-                    Science in Computer Science from Cal State LA in 2020.
+                    I have always been artistic. I still am. Computer science is
+                    the art I chose. Coding is the canvas. I use it to build
+                    worlds, tools, and solutions people can actually use.
                 </p>
 
                 <p>
-                    With over 6 years of progressive Full-Stack Software
-                    Engineering experience, I build and scale robust, real-time
-                    web applications using the MERN stack (React, TypeScript,
-                    Node.js, Express, and MongoDB). I design and maintain
-                    secure, cloud-native infrastructure on Amazon Web Services
-                    (AWS) — dockerizing applications, hosting private MongoDB
-                    instances, and implementing serverless architectures with
-                    Lambda, EventBridge, and CloudWatch to deliver real-time
-                    telemetry monitoring and zero-downtime production
-                    environments.
+                    In high school I led development on my first game, SAT
+                    Fighters, a learn-as-you-play vocabulary title. I was Scrum
+                    leader and a developer on the team. We took 2nd place in a
+                    pitch contest and were invited to Google LA, where I spoke
+                    with Eric Schmidt. That is when liking games became shipping
+                    software. I earned a B.S. in Computer Science from Cal State
+                    LA in 2020.
                 </p>
 
                 <p>
-                    I established and maintained CI/CD pipelines with GitHub
-                    Actions, enforced high standards through rigorous code
-                    reviews, and automated deployments using Vercel and Netlify.
-                    With experience as Acting Technology Lead and HIPAA
-                    Compliance Lead for over 3 years, I have successfully led
-                    both small and large teams — guiding projects from concept
-                    to production while ensuring momentum, quality, and timely
-                    delivery in fast-paced environments.
+                    For six years I have been a full-stack engineer who also
+                    mentors and teaches. I have built scalable web and mobile
+                    applications, shipped small games, and led classes meant to
+                    pull the next engineers into the field. Most recently I
+                    built tools and integrations for agile legal systems, with
+                    the security and scalability HIPAA work requires.
                 </p>
 
                 <p>
-                    My focus remains on writing clean, maintainable code and
-                    architecting reliable, scalable systems that perform under
-                    real-world demands.
+                    I want the next chapter on a team that needs internal
+                    systems. I can maintain what you have or build the tool from
+                    scratch. The goal is the same. Help the team ship.
                 </p>
 
                 <div className="about-divider" />

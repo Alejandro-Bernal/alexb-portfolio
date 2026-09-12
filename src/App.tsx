@@ -45,11 +45,11 @@ function TerminalPortfolio() {
     };
 
     const bottomRef = useRef<HTMLDivElement>(null);
-    const formRef = useRef<HTMLFormElement>(null); // Add a ref for the form
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [history]);
+    }, [history, introComplete]);
 
     useEffect(() => {
         if (introComplete && !overlay) {
@@ -219,7 +219,6 @@ function TerminalPortfolio() {
                                     <div>{renderCommandOutput(entry)}</div>
                                 </div>
                             ))}
-                            <div ref={bottomRef} />
                         </div>
 
                         <form
@@ -234,53 +233,79 @@ function TerminalPortfolio() {
                                 </span>
                                 :~${" "}
                             </span>
-                            {introComplete && !input && (
-                                <span className="cursor" aria-hidden="true" />
-                            )}
                             <div className="terminal-input-field">
-                                {contactStep === "message" ? (
-                                    <textarea
-                                        ref={
-                                            inputRef as unknown as React.RefObject<HTMLTextAreaElement>
-                                        }
-                                        className="terminal-textarea"
-                                        value={input}
-                                        onChange={(e) =>
-                                            setInput(e.target.value)
-                                        }
-                                        onKeyDown={handleKeyDown}
-                                        aria-label="Terminal message input"
-                                        autoComplete="off"
-                                        spellCheck={false}
-                                        autoFocus={introComplete}
-                                        rows={1} // Start as a single line
-                                        onInput={(e) => {
-                                            const target =
-                                                e.target as HTMLTextAreaElement;
-                                            target.style.height = "auto";
-                                            target.style.height = `${target.scrollHeight}px`;
-                                        }}
-                                    />
-                                ) : (
-                                    <input
-                                        ref={
-                                            inputRef as unknown as React.RefObject<HTMLInputElement>
-                                        }
-                                        className="terminal-input"
-                                        type="text"
-                                        value={input}
-                                        onChange={(e) =>
-                                            setInput(e.target.value)
-                                        }
-                                        aria-label="Terminal input"
-                                        autoComplete="off"
-                                        spellCheck={false}
-                                        autoFocus={introComplete}
-                                    />
-                                )}
+                                <div
+                                    className={`terminal-input-edit${contactStep === "message" ? " is-multiline" : ""}`}
+                                >
+                                    {introComplete && (
+                                        <span
+                                            className="terminal-caret-sizer"
+                                            aria-hidden="true"
+                                        >
+                                            {input}
+                                            <span className="cursor" />
+                                        </span>
+                                    )}
+                                    {contactStep === "message" ? (
+                                        <textarea
+                                            ref={
+                                                inputRef as unknown as React.RefObject<HTMLTextAreaElement>
+                                            }
+                                            className="terminal-textarea"
+                                            value={input}
+                                            onChange={(e) =>
+                                                setInput(e.target.value)
+                                            }
+                                            onKeyDown={handleKeyDown}
+                                            onFocus={(e) => {
+                                                e.currentTarget.scrollIntoView({
+                                                    block: "nearest",
+                                                });
+                                            }}
+                                            aria-label="Terminal message input"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoCapitalize="none"
+                                            spellCheck={false}
+                                            autoFocus={introComplete}
+                                            enterKeyHint="send"
+                                            rows={1}
+                                            onInput={(e) => {
+                                                const target =
+                                                    e.target as HTMLTextAreaElement;
+                                                target.style.height = "auto";
+                                                target.style.height = `${target.scrollHeight}px`;
+                                            }}
+                                        />
+                                    ) : (
+                                        <input
+                                            ref={
+                                                inputRef as unknown as React.RefObject<HTMLInputElement>
+                                            }
+                                            className="terminal-input"
+                                            type="text"
+                                            value={input}
+                                            onChange={(e) =>
+                                                setInput(e.target.value)
+                                            }
+                                            onFocus={(e) => {
+                                                e.currentTarget.scrollIntoView({
+                                                    block: "nearest",
+                                                });
+                                            }}
+                                            aria-label="Terminal input"
+                                            autoComplete="off"
+                                            autoCorrect="off"
+                                            autoCapitalize="none"
+                                            spellCheck={false}
+                                            autoFocus={introComplete}
+                                            enterKeyHint="go"
+                                            inputMode="text"
+                                        />
+                                    )}
+                                </div>
                                 {input &&
                                     (() => {
-                                        // Extract the number following "Max " or "/"
                                         const match =
                                             inputHint.match(/(?:Max |\/)(\d+)/);
                                         if (!match) return null;
@@ -294,9 +319,10 @@ function TerminalPortfolio() {
                                     })()}
                             </div>
                         </form>
+                        <div ref={bottomRef} />
                     </div>
                 )}
-                {!overlay && <Footer />}
+                <Footer />
             </div>
         </div>
     );

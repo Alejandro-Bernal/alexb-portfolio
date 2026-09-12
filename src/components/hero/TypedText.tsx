@@ -9,12 +9,12 @@ interface TypedTextProps {
 export function TypedText({
     text,
     className = "",
-    showCursor = false, // Default to false
+    showCursor = false,
 }: TypedTextProps) {
     return (
         <span className={className}>
             {text}
-            {showCursor && <span className="cursor">|</span>}
+            {showCursor && <span className="cursor" aria-hidden="true" />}
         </span>
     );
 }
