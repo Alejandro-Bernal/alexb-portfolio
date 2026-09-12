@@ -45,7 +45,7 @@ export const PROJECTS: Project[] = [
         role: "Android Developer and Risk Algorithm Contributor",
         period: "2019 - 2020",
         tagline:
-            "Civic routing tool that scored cyclist mortality risk and recommended safer bike paths across Greater Los Angeles.",
+            "Civic routing tool that scored cyclist mortality risk and recommended safer bike paths across Greater Los Angeles County.",
         star: {
             situation:
                 "A 5-person senior capstone with LADOT and the City of Los Angeles, aimed at Vision Zero and 2028 Olympics infrastructure planning. The city had years of collision records and Metro Bike Share data, but no rider-facing way to turn that into a safer route.",

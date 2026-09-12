@@ -27,39 +27,49 @@ export function About() {
 
                 <p>
                     I was born in El Salvador and grew up in Los Angeles. Mario
-                    Bros. on the NES was the gateway. I wanted to know how those
+                    Bros. on the NES was the gateway to my passion for video
+                    games and technology. I was always curious to know how those
                     games worked and how they were built.
                 </p>
 
                 <p>
-                    I have always been artistic. I still am. Computer science is
-                    the art I chose. Coding is the canvas. I use it to build
-                    worlds, tools, and solutions people can actually use.
+                    I have always been artistic. I still am. I chose Computer
+                    science because I found it mixes my artistic passion and
+                    technology, a blend that allows for new apps, websites,
+                    games and much more to be created. Coding is the tool to
+                    fill the canvas. I use it to build apps that solve community
+                    problems, to build tools for agile teams, to mentor younger
+                    aspiring engineers, and now create worlds and solutions
+                    people can actually use.
                 </p>
 
                 <p>
-                    In high school I led development on my first game, SAT
-                    Fighters, a learn-as-you-play vocabulary title. I was Scrum
-                    leader and a developer on the team. We took 2nd place in a
-                    pitch contest and were invited to Google LA, where I spoke
-                    with Eric Schmidt. That is when liking games became shipping
-                    software. I earned a B.S. in Computer Science from Cal State
-                    LA in 2020.
+                    My first achievement was in High School, where I led
+                    development on my first game. SAT Fighters, a
+                    learn-as-you-play vocabulary mobile app, with the goal of
+                    helping our High Schoolers prepare for SAT vocabulary
+                    portion. I was Scrum leader and a developer on the team. We
+                    took 2nd place in a pitch contest and were invited to Google
+                    LA, where I spoke with Eric Schmidt. That is when I decided
+                    to pursue a career in programming. I earned a B.S. in
+                    Computer Science from Cal State LA in 2020.
                 </p>
 
                 <p>
-                    For six years I have been a full-stack engineer who also
-                    mentors and teaches. I have built scalable web and mobile
-                    applications, shipped small games, and led classes meant to
-                    pull the next engineers into the field. Most recently I
-                    built tools and integrations for agile legal systems, with
-                    the security and scalability HIPAA work requires.
+                    For six years I have been a full-stack engineer who builds
+                    for teams, for users that require solutions and mentors the
+                    next generation for engineers. I have built scalable web and
+                    mobile applications, shipped small games, and led classes.
+                    Most recently I built tools and integrations for agile legal
+                    systems, with the security and scalability HIPAA work
+                    requires.
                 </p>
 
                 <p>
-                    I want the next chapter on a team that needs internal
-                    systems. I can maintain what you have or build the tool from
-                    scratch. The goal is the same. Help the team ship.
+                    I am looking to embark on the next chapter in my career, to
+                    join a team that needs secure, scalable and customizable
+                    internal systems. I can maintain what you have or build the
+                    tool from scratch. The goal is the same. Help the team ship.
                 </p>
 
                 <div className="about-divider" />
