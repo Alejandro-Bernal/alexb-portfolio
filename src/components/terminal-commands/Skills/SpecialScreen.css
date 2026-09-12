@@ -225,7 +225,6 @@
         padding-bottom: 6rem;
         scroll-margin-top: 5.5rem;
     }
-    }
 
     .special-skill-row {
         grid-template-columns: minmax(0, 1fr) 4.5ch;
